@@ -14,7 +14,22 @@ namespace XORGanizer
     {
         public Form1()
         {
+
+
+
             InitializeComponent();
+
+
+
+
         }
+
+        private void button_add_Event_Click(object sender, EventArgs e)
+        {
+      
+        }
+
+
+
     }
 }

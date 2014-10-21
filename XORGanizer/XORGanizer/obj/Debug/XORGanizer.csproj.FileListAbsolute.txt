@@ -7,3 +7,4 @@ E:\GitHub\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.Properties.Resou
 E:\GitHub\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.csproj.GenerateResource.Cache
 E:\GitHub\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.exe
 E:\GitHub\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.pdb
+E:\GitHub\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.Form1.resources
