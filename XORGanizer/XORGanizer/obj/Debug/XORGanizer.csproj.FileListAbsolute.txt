@@ -1,1 +1,9 @@
 C:\XORGanizer\XORGanizer\XORGanizer\bin\Debug\XORGanizer.exe.config
+E:\GitHub\XORGanizer\XORGanizer\XORGanizer\bin\Debug\XORGanizer.exe.config
+E:\GitHub\XORGanizer\XORGanizer\XORGanizer\bin\Debug\XORGanizer.exe
+E:\GitHub\XORGanizer\XORGanizer\XORGanizer\bin\Debug\XORGanizer.pdb
+E:\GitHub\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.csprojResolveAssemblyReference.cache
+E:\GitHub\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.Properties.Resources.resources
+E:\GitHub\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.csproj.GenerateResource.Cache
+E:\GitHub\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.exe
+E:\GitHub\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.pdb
