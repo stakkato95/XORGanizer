@@ -31,10 +31,14 @@ namespace XORGanizer
             }
             listOfEvents.Add(someEvent.Starting, someEvent);
         }
-
         public void deleteEvent(Event someEvent)
         {
             listOfEvents.Remove(someEvent.Starting);
+        }
+
+        public void modifyEvent(Event somEvent)
+        {
+            
         }
 
     }
