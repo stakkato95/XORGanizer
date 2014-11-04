@@ -49,6 +49,7 @@ namespace XORGanizer
             {
                 listOfDays.Add(added.Starting, new Day(added.Starting));
                 listOfDays[added.Starting].addEvent(added);
+                //trololo
             }
         }
 
