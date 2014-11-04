@@ -36,7 +36,7 @@ namespace XORGanizer
             listOfEvents.Remove(someEvent.Starting);
         }
 
-        public void modifyEvent(Event somEvent)
+        public void modifyEvent(Event someEvent)
         {
             
         }

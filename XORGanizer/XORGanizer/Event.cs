@@ -14,14 +14,14 @@ namespace XORGanizer
         public string Title { get; private set; }
         public string Description { get; private set; }
 
-    //    public long Id { get; private set; } айдишкик как думаешь нужен или нет
 
-        //public enum priority //было бы не плохо организовать приоритет
-        //{
-        //    IMPORTANT,
-        //    NORMAL,
-        //    MATTER
-        //}
+
+        public enum priority //было бы не плохо организовать приоритет
+        {
+            IMPORTANT,
+            NORMAL,
+            MATTER
+        }
        
         
 
