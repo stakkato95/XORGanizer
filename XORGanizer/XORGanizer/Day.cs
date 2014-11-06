@@ -27,7 +27,7 @@ namespace XORGanizer
         {
             if (listOfEvents.ContainsKey(someEvent.Starting))
             {
-                throw new Exception("Время начала совпадают!");
+                throw new Exception("The beginning time coincides with the beginning time of another event");
             }
             listOfEvents.Add(someEvent.Starting, someEvent);
         }

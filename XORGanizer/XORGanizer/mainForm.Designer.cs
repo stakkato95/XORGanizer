@@ -47,6 +47,7 @@
             this.monthCalendar.Location = new System.Drawing.Point(702, 46);
             this.monthCalendar.Name = "monthCalendar";
             this.monthCalendar.TabIndex = 4;
+            this.monthCalendar.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar_Click);
             // 
             // eventsListView
             // 

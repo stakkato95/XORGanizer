@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -26,7 +27,7 @@ namespace XORGanizer
         
         private void addEventButton_Click(object sender, EventArgs e)
         {
-            Event added = new Event(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
+            Event addedEvent = new Event(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
                 int.Parse(beginningDateTimePicker.Value.Month.ToString()),
                 int.Parse(beginningDateTimePicker.Value.Day.ToString()),
                 int.Parse(beginningDateTimePicker.Value.Hour.ToString()),
@@ -41,19 +42,41 @@ namespace XORGanizer
                 isUrgentCheckBox.Checked,
                 descriptionTextBox.Text);
 
-            if (listOfDays.ContainsValue(new Day(added.Starting)))
+            DateTime timeForNewDay = new DateTime(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
+                int.Parse(beginningDateTimePicker.Value.Month.ToString()),
+                int.Parse(beginningDateTimePicker.Value.Day.ToString()));
+
+            Day addedDay = new Day(timeForNewDay);
+
+            try
             {
-                listOfDays[added.Starting].addEvent(added);
+                if (listOfDays.ContainsValue(addedDay))
+                {
+                    listOfDays[timeForNewDay].addEvent(addedEvent);
+
+                    MessageBox.Show("Событие успешно добавлено");
+                    descriptionTextBox.Text = "";
+                }
+                else
+                {
+                    listOfDays.Add(timeForNewDay, new Day(timeForNewDay));
+                    listOfDays[timeForNewDay].addEvent(addedEvent);
+
+                    MessageBox.Show("Событие успешно добавлено");
+                    descriptionTextBox.Text = "";
+                }
             }
-            else
+            catch (Exception)
             {
-                listOfDays.Add(added.Starting, new Day(added.Starting));
-                listOfDays[added.Starting].addEvent(added);
-                //trololo
+                MessageBox.Show("Время начал добавляемого события совпадает со временем начала уже добавленного события",
+                    "Невозможно добавить событие", MessageBoxButtons.OK);
             }
         }
 
-
+        private void monthCalendar_Click(object sender, DateRangeEventArgs e)
+        {
+            //TODO реагирует список eventsListView
+        }
 
     }
 }
