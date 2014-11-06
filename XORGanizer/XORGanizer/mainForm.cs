@@ -32,7 +32,11 @@ namespace XORGanizer
                 int.Parse(beginningDateTimePicker.Value.Day.ToString()),
                 int.Parse(beginningDateTimePicker.Value.Hour.ToString()),
                 int.Parse(beginningDateTimePicker.Value.Minute.ToString()),
-                int.Parse(beginningDateTimePicker.Value.Second.ToString()),
+               int.Parse(beginningDateTimePicker.Value.Second.ToString()),
+
+
+             //   int.Parse(DateTime.Now.AddMinutes(5)),
+
                 int.Parse(endingDateTimePicker.Value.Year.ToString()),
                 int.Parse(endingDateTimePicker.Value.Month.ToString()),
                 int.Parse(endingDateTimePicker.Value.Day.ToString()),
@@ -42,9 +46,13 @@ namespace XORGanizer
                 isUrgentCheckBox.Checked,
                 descriptionTextBox.Text);
 
-            DateTime timeForNewDay = new DateTime(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
+            DateTime timeForNewDay = new DateTime(
+                int.Parse(beginningDateTimePicker.Value.Year.ToString()),
                 int.Parse(beginningDateTimePicker.Value.Month.ToString()),
                 int.Parse(beginningDateTimePicker.Value.Day.ToString()));
+                 int.Parse(beginningDateTimePicker.Value.Hour.ToString());
+                 int.Parse(beginningDateTimePicker.Value.Minute.ToString()
+                     );
 
             Day addedDay = new Day(timeForNewDay);
 
@@ -56,6 +64,8 @@ namespace XORGanizer
 
                     MessageBox.Show("Событие успешно добавлено");
                     descriptionTextBox.Text = "";
+
+                  
                 }
                 else
                 {
@@ -70,13 +80,24 @@ namespace XORGanizer
             {
                 MessageBox.Show("Время начал добавляемого события совпадает со временем начала уже добавленного события",
                     "Невозможно добавить событие", MessageBoxButtons.OK);
-            }
+            }//не правильно организовали логику проверки если 2 события в один день, то кидает экзепшн с ошибкой
+
+
+            eventsListView.Items.Add(addedEvent.Description);
+            eventsListView.Items.Add(addedEvent.Starting.ToString());
+            eventsListView.Items.Add(addedEvent.Ending.ToString());
+            eventsListView.Items.Add(addedEvent.isUrgent.ToString());
+            //добаляем листвью наши строки
+
         }
 
         private void monthCalendar_Click(object sender, DateRangeEventArgs e)
         {
+
             //TODO реагирует список eventsListView
         }
+
+       
 
     }
 }

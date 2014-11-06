@@ -17,7 +17,7 @@ namespace XORGanizer
         public Event()
         {
             Starting = DateTime.Now;
-            Ending = DateTime.Now.AddMinutes(15);
+            Ending = DateTime.Now.AddMinutes(5);
             Fulfillment = false;
             Description = "Описание отсутствует";
             isUrgent = false;

@@ -53,7 +53,7 @@
             // 
             this.eventsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1});
-            this.eventsListView.Location = new System.Drawing.Point(412, 46);
+            this.eventsListView.Location = new System.Drawing.Point(425, 53);
             this.eventsListView.Name = "eventsListView";
             this.eventsListView.Size = new System.Drawing.Size(278, 196);
             this.eventsListView.TabIndex = 5;
@@ -80,7 +80,7 @@
             // 
             // beginningDateTimePicker
             // 
-            this.beginningDateTimePicker.CustomFormat = "dd.MM.yyyy - HH.mm.ss";
+            this.beginningDateTimePicker.CustomFormat = "dd.MM.yyyy - HH.mm";
             this.beginningDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.beginningDateTimePicker.Location = new System.Drawing.Point(110, 45);
             this.beginningDateTimePicker.Name = "beginningDateTimePicker";
@@ -119,7 +119,7 @@
             // 
             // endingDateTimePicker
             // 
-            this.endingDateTimePicker.CustomFormat = "dd.MM.yyyy - HH.mm.ss";
+            this.endingDateTimePicker.CustomFormat = "dd.MM.yyyy - HH.mm";
             this.endingDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.endingDateTimePicker.Location = new System.Drawing.Point(110, 75);
             this.endingDateTimePicker.Name = "endingDateTimePicker";
