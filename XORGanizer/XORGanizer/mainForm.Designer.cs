@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("");
             this.monthCalendar = new System.Windows.Forms.MonthCalendar();
             this.eventsListView = new System.Windows.Forms.ListView();
             this.addEventButton = new System.Windows.Forms.Button();
@@ -44,18 +44,19 @@
             // 
             // monthCalendar
             // 
-            this.monthCalendar.Location = new System.Drawing.Point(702, 46);
+            this.monthCalendar.Location = new System.Drawing.Point(927, 47);
             this.monthCalendar.Name = "monthCalendar";
             this.monthCalendar.TabIndex = 4;
+            this.monthCalendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar_DateChanged);
             this.monthCalendar.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar_Click);
             // 
             // eventsListView
             // 
             this.eventsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
-            this.eventsListView.Location = new System.Drawing.Point(425, 53);
+            listViewItem6});
+            this.eventsListView.Location = new System.Drawing.Point(412, 47);
             this.eventsListView.Name = "eventsListView";
-            this.eventsListView.Size = new System.Drawing.Size(278, 196);
+            this.eventsListView.Size = new System.Drawing.Size(503, 196);
             this.eventsListView.TabIndex = 5;
             this.eventsListView.UseCompatibleStateImageBehavior = false;
             this.eventsListView.View = System.Windows.Forms.View.List;
@@ -152,7 +153,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(884, 261);
+            this.ClientSize = new System.Drawing.Size(1130, 261);
             this.Controls.Add(this.eventsLabel);
             this.Controls.Add(this.isUrgentCheckBox);
             this.Controls.Add(this.endingLabel);
