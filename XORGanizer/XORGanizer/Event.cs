@@ -6,29 +6,20 @@ using System.Threading.Tasks;
 
 namespace XORGanizer
 {
+    public enum EventImportance { Low, Middle, High }
     public sealed class Event
     {
         public DateTime Starting { get; private set; }
         public DateTime Ending { get; private set; }
-        public bool Fulfillment { get; private set; } //событие выполнено или не выполнено
         public string Description { get; private set; }
-        public bool isUrgent { get; private set; }
+        public EventImportance Importance { get; private set; }
 
-        public Event()
+        public Event(int startYear, int startMonth, int startDay, int startHour, int startMinute, int endYear, int endMonth, int endDay, int endHour, int endMinute, int importance, string description)
         {
-            Starting = DateTime.Now;
-            Ending = DateTime.Now.AddMinutes(5);
-            Fulfillment = false;
-            Description = "Описание отсутствует";
-            isUrgent = false;
-        }
-        public Event(int startYear, int startMonth, int startDay, int startHour, int startMinute, int startSecond, int endYear, int endMonth, int endDay, int endHour, int endMinute, int endSecond, bool urg, string description = "Описание отсутствует") //я думаю,что будем использовать этот конструктор http://msdn.microsoft.com/ru-ru/library/272ba130(v=vs.110).aspx, т.к. в формсах явно будет неудобно забивать такую например дату March 01, 2008 7:00:00 AM вручную 
-        {
-            Starting = new DateTime(startYear, startMonth, startDay, startHour, startMinute, startSecond);
-            Ending = new DateTime(endYear, endMonth, endDay, endHour, endMinute, endSecond);
-            Fulfillment = false;
-            Description = description;
-            isUrgent = urg;
+            Starting = new DateTime(startYear, startMonth, startDay, startHour, startMinute, 0);
+            Ending = new DateTime(endYear, endMonth, endDay, endHour, endMinute, 0);
+            Description = String.IsNullOrEmpty(description) ? "Описание отсутствует" : description;
+            Importance = (EventImportance)importance;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace XORGanizer
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -41,133 +41,83 @@
             this.isUrgentCheckBox = new System.Windows.Forms.CheckBox();
             this.eventsLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            //headers for eventsListView
+            this.columnHeadeIndex = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()
+            {
+                Text = "№",
+                Width = 40,
+                TextAlign = System.Windows.Forms.HorizontalAlignment.Right,
+            }));
+            this.columnHeadeDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()
+            {
+                Text = "Описание",
+                Width = 221,
+                TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+            }));
+            this.columnHeadeImportance = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()
+            {
+                Text = "Важность",
+                Width = 65,
+                TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+            }));
+            this.columnHeadeBeginningTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()
+            {
+                Text = "Начало",
+                Width = 50,
+                TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+            }));
+            this.columnHeadeEndingTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()
+            {
+                Text = "Окончание",
+                Width = 70,
+                TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+            }));
+
             // 
             // monthCalendar
             // 
-            this.monthCalendar.Location = new System.Drawing.Point(927, 47);
+            this.monthCalendar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.monthCalendar.Location = new System.Drawing.Point(18, 17);
+            this.eventsListView.CheckBoxes = true;
             this.monthCalendar.Name = "monthCalendar";
             this.monthCalendar.TabIndex = 4;
-            this.monthCalendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar_DateChanged);
             this.monthCalendar.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar_Click);
             // 
             // eventsListView
             // 
             this.eventsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem6});
-            this.eventsListView.Location = new System.Drawing.Point(412, 47);
+            this.eventsListView.Location = new System.Drawing.Point(194, 17);
             this.eventsListView.Name = "eventsListView";
-            this.eventsListView.Size = new System.Drawing.Size(503, 196);
+            this.eventsListView.Size = new System.Drawing.Size(450, 196);
             this.eventsListView.TabIndex = 5;
             this.eventsListView.UseCompatibleStateImageBehavior = false;
-            this.eventsListView.View = System.Windows.Forms.View.List;
+            this.eventsListView.View = System.Windows.Forms.View.Details;
             // 
             // addEventButton
             // 
+            this.addEventButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.addEventButton.AutoSize = true;
-            this.addEventButton.Location = new System.Drawing.Point(12, 226);
+            this.addEventButton.Location = new System.Drawing.Point(18, 191);
             this.addEventButton.Name = "addEventButton";
-            this.addEventButton.Size = new System.Drawing.Size(95, 23);
+            this.addEventButton.Size = new System.Drawing.Size(164, 23);
             this.addEventButton.TabIndex = 6;
             this.addEventButton.Text = "Новое событие";
             this.addEventButton.UseVisualStyleBackColor = true;
             this.addEventButton.Click += new System.EventHandler(this.addEventButton_Click);
             // 
-            // descriptionTextBox
-            // 
-            this.descriptionTextBox.Location = new System.Drawing.Point(110, 18);
-            this.descriptionTextBox.Name = "descriptionTextBox";
-            this.descriptionTextBox.Size = new System.Drawing.Size(267, 20);
-            this.descriptionTextBox.TabIndex = 7;
-            // 
-            // beginningDateTimePicker
-            // 
-            this.beginningDateTimePicker.CustomFormat = "dd.MM.yyyy - HH.mm";
-            this.beginningDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.beginningDateTimePicker.Location = new System.Drawing.Point(110, 45);
-            this.beginningDateTimePicker.Name = "beginningDateTimePicker";
-            this.beginningDateTimePicker.Size = new System.Drawing.Size(267, 20);
-            this.beginningDateTimePicker.TabIndex = 8;
-            // 
-            // descriptionLabel
-            // 
-            this.descriptionLabel.AutoSize = true;
-            this.descriptionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.descriptionLabel.Location = new System.Drawing.Point(12, 18);
-            this.descriptionLabel.Name = "descriptionLabel";
-            this.descriptionLabel.Size = new System.Drawing.Size(83, 20);
-            this.descriptionLabel.TabIndex = 9;
-            this.descriptionLabel.Text = "Описание";
-            // 
-            // beginningLabel
-            // 
-            this.beginningLabel.AutoSize = true;
-            this.beginningLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.beginningLabel.Location = new System.Drawing.Point(12, 47);
-            this.beginningLabel.Name = "beginningLabel";
-            this.beginningLabel.Size = new System.Drawing.Size(67, 20);
-            this.beginningLabel.TabIndex = 10;
-            this.beginningLabel.Text = "Начало";
-            // 
-            // endingLabel
-            // 
-            this.endingLabel.AutoSize = true;
-            this.endingLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.endingLabel.Location = new System.Drawing.Point(12, 76);
-            this.endingLabel.Name = "endingLabel";
-            this.endingLabel.Size = new System.Drawing.Size(92, 20);
-            this.endingLabel.TabIndex = 17;
-            this.endingLabel.Text = "Окончание";
-            // 
-            // endingDateTimePicker
-            // 
-            this.endingDateTimePicker.CustomFormat = "dd.MM.yyyy - HH.mm";
-            this.endingDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.endingDateTimePicker.Location = new System.Drawing.Point(110, 75);
-            this.endingDateTimePicker.Name = "endingDateTimePicker";
-            this.endingDateTimePicker.Size = new System.Drawing.Size(267, 20);
-            this.endingDateTimePicker.TabIndex = 16;
-            // 
-            // isUrgentCheckBox
-            // 
-            this.isUrgentCheckBox.AutoSize = true;
-            this.isUrgentCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.isUrgentCheckBox.Location = new System.Drawing.Point(16, 99);
-            this.isUrgentCheckBox.Name = "isUrgentCheckBox";
-            this.isUrgentCheckBox.Size = new System.Drawing.Size(93, 24);
-            this.isUrgentCheckBox.TabIndex = 22;
-            this.isUrgentCheckBox.Text = "Срочное";
-            this.isUrgentCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // eventsLabel
-            // 
-            this.eventsLabel.AutoSize = true;
-            this.eventsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.eventsLabel.Location = new System.Drawing.Point(504, 16);
-            this.eventsLabel.Name = "eventsLabel";
-            this.eventsLabel.Size = new System.Drawing.Size(109, 20);
-            this.eventsLabel.TabIndex = 23;
-            this.eventsLabel.Text = "События дня";
-            // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1130, 261);
-            this.Controls.Add(this.eventsLabel);
-            this.Controls.Add(this.isUrgentCheckBox);
-            this.Controls.Add(this.endingLabel);
-            this.Controls.Add(this.endingDateTimePicker);
-            this.Controls.Add(this.beginningLabel);
-            this.Controls.Add(this.descriptionLabel);
-            this.Controls.Add(this.beginningDateTimePicker);
-            this.Controls.Add(this.descriptionTextBox);
+            this.ClientSize = new System.Drawing.Size(656, 226);
             this.Controls.Add(this.addEventButton);
             this.Controls.Add(this.eventsListView);
             this.Controls.Add(this.monthCalendar);
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Name = "MainForm";
+            this.Text = "XORGanizer";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -186,6 +136,12 @@
         private System.Windows.Forms.DateTimePicker endingDateTimePicker;
         private System.Windows.Forms.CheckBox isUrgentCheckBox;
         private System.Windows.Forms.Label eventsLabel;
+        //custom columnHeades
+        private System.Windows.Forms.ColumnHeader columnHeadeImportance;
+        private System.Windows.Forms.ColumnHeader columnHeadeIndex;
+        private System.Windows.Forms.ColumnHeader columnHeadeDescription;
+        private System.Windows.Forms.ColumnHeader columnHeadeBeginningTime;
+        private System.Windows.Forms.ColumnHeader columnHeadeEndingTime;
 
     }
 }

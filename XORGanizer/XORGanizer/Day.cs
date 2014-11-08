@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace XORGanizer
 {
-    class Day
+    public class Day
     {
         DateTime currentDay;
         private SortedList<DateTime, Event> listOfEvents;
@@ -35,6 +36,17 @@ namespace XORGanizer
         public void deleteEvent(Event someEvent)
         {
             listOfEvents.Remove(someEvent.Starting);
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+
+            for (int i = 0; i < listOfEvents.Count; i++)
+            {
+                if (i == listOfEvents.Count)
+                    yield break;
+                yield return listOfEvents.ElementAt(i);
+            }
         }
 
     }

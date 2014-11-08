@@ -13,42 +13,41 @@ using System.Windows.Forms;
 
 namespace XORGanizer
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        SortedList<DateTime, Day> listOfDays = new SortedList<DateTime, Day>();
+        public SortedList<DateTime, Day> listOfDays = new SortedList<DateTime, Day>();
 
-        private const string pathfile = "E:\\lol.txt"; // можно путь в переменную записать
-        public Form1()
+        private const string listOfEventsPath = "D:\\List of events.txt";
+        public MainForm()
         {
             InitializeComponent();
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
+            //if (File.Exists(listOfEventsPath))
+            //{
+            //    StreamReader reader = new StreamReader(listOfEventsPath);
+            //    string line;
+            //    while ((line = reader.ReadLine()) != null)
+            //    {
+            //        string[] values = line.Split('|');
 
-            //загружаем наш файл, если его нет, то создаём его
+            //        eventsListView.Items.Add(new ListViewItem(values));
+            //    }
+            //    reader.Close();
+            //}
+            //else
+            //{
+            //    FileStream FS2 = new FileStream(listOfEventsPath, FileMode.Create);
+            //}
 
-            if (File.Exists("E:\\lol.txt"))
-            {
-                StreamReader reader = new StreamReader(pathfile);
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] values = line.Split('|');
+            //такая конструкция красивее. надо переделать под неё
+            //eventsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            //listViewItem1});
 
-                    eventsListView.Items.Add(new ListViewItem(values));
-                }
-                reader.Close();
-            }
-            else
-            {
-                FileStream FS2 = new FileStream("E:\\lol.txt", FileMode.Create);
-            }
-
-
-
-            //if ("E:\\lol.txt" != null)
+            //if (listOfEventsPath != null)
             //{
             //    line = reader.ReadToEnd();
             //    string[] values = line.Split('|');
@@ -61,101 +60,68 @@ namespace XORGanizer
 
             //  reader.Close();
 
-            eventsListView.View = View.Details;
-            eventsListView.Columns.Add("descr", 200);
-            eventsListView.Columns.Add("start", 120);
-            eventsListView.Columns.Add("end", 120);
-            eventsListView.Columns.Add("isurgent", 50);
-
+            eventsListView.Columns.Add(columnHeadeIndex);
+            eventsListView.Columns.Add(columnHeadeDescription);
+            eventsListView.Columns.Add(columnHeadeImportance);
+            eventsListView.Columns.Add(columnHeadeBeginningTime);
+            eventsListView.Columns.Add(columnHeadeEndingTime);
         }
 
 
         private void addEventButton_Click(object sender, EventArgs e)
         {
-            Event addedEvent = new Event(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
-                int.Parse(beginningDateTimePicker.Value.Month.ToString()),
-                int.Parse(beginningDateTimePicker.Value.Day.ToString()),
-                int.Parse(beginningDateTimePicker.Value.Hour.ToString()),
-                int.Parse(beginningDateTimePicker.Value.Minute.ToString()),
-               int.Parse(beginningDateTimePicker.Value.Second.ToString()),
-                int.Parse(endingDateTimePicker.Value.Year.ToString()),
-                int.Parse(endingDateTimePicker.Value.Month.ToString()),
-                int.Parse(endingDateTimePicker.Value.Day.ToString()),
-                int.Parse(endingDateTimePicker.Value.Hour.ToString()),
-                int.Parse(endingDateTimePicker.Value.Minute.ToString()),
-                int.Parse(endingDateTimePicker.Value.Second.ToString()),
-                isUrgentCheckBox.Checked,
-                descriptionTextBox.Text);
-
-            DateTime timeForNewDay = new DateTime(
-                int.Parse(beginningDateTimePicker.Value.Year.ToString()),
-                int.Parse(beginningDateTimePicker.Value.Month.ToString()),
-                int.Parse(beginningDateTimePicker.Value.Day.ToString()));
-            int.Parse(beginningDateTimePicker.Value.Hour.ToString());
-            int.Parse(beginningDateTimePicker.Value.Minute.ToString()
-          );
-
-            Day addedDay = new Day(timeForNewDay);
-
-            try
-            {
-                if (listOfDays.ContainsValue(addedDay))
-                {
-                    listOfDays[timeForNewDay].addEvent(addedEvent);
-
-                    MessageBox.Show("Событие успешно добавлено");
-                    descriptionTextBox.Text = "";
-
-
-                }
-                else
-                {
-                    listOfDays.Add(timeForNewDay, new Day(timeForNewDay));
-                    listOfDays[timeForNewDay].addEvent(addedEvent);
-
-                    MessageBox.Show("Событие успешно добавлено");
-                    descriptionTextBox.Text = "";
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Время начал добавляемого события совпадает со временем начала уже добавленного события",
-                    "Невозможно добавить событие", MessageBoxButtons.OK);
-            }//не правильно организовали логику проверки если 2 события в один день, то кидает экзепшн с ошибкой
+            EventConfiguringForm eventConfiguringForm = new EventConfiguringForm();
+            eventConfiguringForm.SetMainForm(this);
+            eventConfiguringForm.Show();
 
 
 
-            ListViewItem lol = new ListViewItem(new string[] { addedEvent.Description, addedEvent.Starting.ToString(), addedEvent.Ending.ToString(), addedEvent.isUrgent.ToString() });
-            eventsListView.Items.Add(lol);
+          //  //ListViewItem lol = new ListViewItem(new string[] { addedEvent.Description, addedEvent.Starting.ToString(), addedEvent.Ending.ToString(), addedEvent.isUrgent.ToString() });
+          //  eventsListView.Items.Add(lol);
 
 
 
-            //eventsListView.Items.Add(addedEvent.Description);
-            //eventsListView.Items.Add(addedEvent.Starting.ToString());
-            //eventsListView.Items.Add(addedEvent.Ending.ToString());
-            //eventsListView.Items.Add(addedEvent.isUrgent.ToString());
-            //добаляем листвью наши строки
+          //  //eventsListView.Items.Add(addedEvent.Description);
+          //  //eventsListView.Items.Add(addedEvent.Starting.ToString());
+          //  //eventsListView.Items.Add(addedEvent.Ending.ToString());
+          //  //eventsListView.Items.Add(addedEvent.isUrgent.ToString());
+          //  //добаляем листвью наши строки
 
 
-            //запишем это дело в файл
-            FileStream FS = new FileStream("E:\\lol.txt", FileMode.Append);
-            StreamWriter WR = new StreamWriter(FS);
-            WR.Write(addedEvent.Description + "|");
-            WR.Write(addedEvent.Starting + "|");
-            WR.Write(addedEvent.Ending + "|");
-            WR.Write(addedEvent.Fulfillment);
-            WR.WriteLine();
+          //  //запишем это дело в файл
+          //  FileStream FS = new FileStream("D:\\lol.txt", FileMode.Append);
+          //  StreamWriter WR = new StreamWriter(FS);
+          //  WR.Write(addedEvent.Description + "|");
+          //  WR.Write(addedEvent.Starting + "|");
+          //  WR.Write(addedEvent.Ending + "|");
+          //  //WR.Write(addedEvent.Fulfillment);
+          //  WR.WriteLine();
 
-            WR.Close();
-
-
+          //  WR.Close();
         }
 
 
         private void monthCalendar_Click(object sender, DateRangeEventArgs e)
         {
+            int index = 1;
+            ListViewItem item = null;
+            string importance = null;
 
-            //TODO реагирует список eventsListView
+            if (listOfDays.ContainsKey(e.Start))
+            {
+                foreach (KeyValuePair<DateTime, Event> selectedDayEvent in listOfDays[e.Start])
+                {
+                    importance = selectedDayEvent.Value.Importance == EventImportance.Middle ? "Средняя" : (selectedDayEvent.Value.Importance == EventImportance.Low ? "Низкая" : "Высокая");
+
+                    item = new ListViewItem(index.ToString());
+                    item.SubItems.Add(selectedDayEvent.Value.Description.ToString());
+                    item.SubItems.Add(importance);
+                    item.SubItems.Add(selectedDayEvent.Value.Starting.ToShortTimeString());
+                    item.SubItems.Add(selectedDayEvent.Value.Ending.ToShortTimeString());
+                    eventsListView.Items.Add(item);
+                    index++;
+                }
+            }
         }
 
         private void monthCalendar_DateChanged(object sender, DateRangeEventArgs e)
@@ -174,11 +140,6 @@ namespace XORGanizer
            //int d = int.Parse(monthCalendar.SelectionStart.Day.ToString());
            //int y = int.Parse(monthCalendar.SelectionStart.Year.ToString());
            //int m = int.Parse(monthCalendar.SelectionStart.Month.ToString());
-           
-
         }
-
-
-
     }
 }

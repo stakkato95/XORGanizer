@@ -20,7 +20,6 @@ C:\Users\Артём\Documents\Visual Studio 2013\Projects\XORGanizer\XORGanizer\
 D:\Programming\C#\Projects\XORGanizer\XORGanizer\XORGanizer\bin\Debug\XORGanizer.exe.config
 D:\Programming\C#\Projects\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.exe
 D:\Programming\C#\Projects\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.csprojResolveAssemblyReference.cache
-D:\Programming\C#\Projects\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.Form1.resources
 D:\Programming\C#\Projects\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.Properties.Resources.resources
 D:\Programming\C#\Projects\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.csproj.GenerateResource.Cache
 D:\Programming\C#\Projects\XORGanizer\XORGanizer\XORGanizer\bin\Debug\XORGanizer.exe
@@ -29,3 +28,5 @@ D:\Programming\C#\Projects\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer
 D:\Programming\C#\XORGanizer\XORGanizer\XORGanizer\bin\Debug\XORGanizer.exe.config
 D:\Programming\C#\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.exe
 D:\Programming\C#\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.pdb
+D:\Programming\C#\Projects\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.EventConfiguringForm.resources
+D:\Programming\C#\Projects\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.MainForm.resources
