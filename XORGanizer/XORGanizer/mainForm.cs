@@ -23,8 +23,8 @@ namespace XORGanizer
         {
             this.eventConfiguringForm = of;
         }
-    
-        //   private const string listOfEventsPath = "C:\\List_of_events.txt";
+
+        public static string listOfEventsPath = Environment.CurrentDirectory;
         public MainForm()
         {
             InitializeComponent();
@@ -33,9 +33,9 @@ namespace XORGanizer
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            if (File.Exists("E:\\List_of_events.txt"))
+            if (File.Exists(listOfEventsPath + "\\List.txt"))
             {
-                StreamReader reader = new StreamReader("E:\\List_of_events.txt");
+                StreamReader reader = new StreamReader(listOfEventsPath + "\\List.txt");
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -47,7 +47,7 @@ namespace XORGanizer
             }
             else
             {
-                FileStream FS2 = new FileStream("E:\\List_of_events.txt", FileMode.Create);
+                FileStream FS2 = new FileStream(listOfEventsPath + "\\List.txt", FileMode.Create);
             }
 
 
@@ -71,17 +71,11 @@ namespace XORGanizer
 
             //вот тут я бы поспорил чей код лучше
 
-            eventsListView.View = View.Details;
-            eventsListView.Columns.Add("descr", 200);
-            eventsListView.Columns.Add("start", 120);
-            eventsListView.Columns.Add("end", 120);
-            eventsListView.Columns.Add("isurgent", 50);
-
-            eventsListView.Columns.Add(columnHeadeIndex);
-            eventsListView.Columns.Add(columnHeadeDescription);
-            eventsListView.Columns.Add(columnHeadeImportance);
-            eventsListView.Columns.Add(columnHeadeBeginningTime);
-            eventsListView.Columns.Add(columnHeadeEndingTime);
+            eventsListView.Columns.Add("№");
+            eventsListView.Columns.Add("Описание");
+            eventsListView.Columns.Add("Важность");
+            eventsListView.Columns.Add("Начало");
+            eventsListView.Columns.Add("Окончание");
         }
 
 
@@ -91,14 +85,15 @@ namespace XORGanizer
             eventConfiguringForm.SetMainForm(this);
             eventConfiguringForm.Show();
 
+            //monthCalendar.TodayDate = monthCalendar.TodayDate;
 
             ArrayList A = new ArrayList();
             A.Add(beginningDateTimePicker.Value);
             A.Add(endingDateTimePicker.Value);
             A.Add(descriptionTextBox.Text);
-            A.Add(importanceGroupBox)
+            //A.Add(importanceGroupBox);
 
-            //ListViewItem lol = new ListViewItem(new string[] { addedEvent.Description, addedEvent.Starting.ToString(), addedEvent.Ending.ToString(), addedEvent.isUrgent.ToString() });
+            //ListViewItem lol = new ListViewItem(new string[] { EventConfiguringForm.sharedEvent.Description, EventConfiguringForm.sharedEvent.Starting.ToString(), EventConfiguringForm.sharedEvent.Ending.ToString(), EventConfiguringForm.sharedEvent.Importance.ToString() });
             //eventsListView.Items.Add(lol);
 
 
@@ -146,8 +141,9 @@ namespace XORGanizer
 
         private void monthCalendar_DateChanged(object sender, DateRangeEventArgs e)
         {
-           
-           // FileStream fs = new FileStream("E:\\lol.txt", FileMode.Open, FileAccess.Read);
+
+
+            // FileStream fs = new FileStream(listOfEventsPath + "lol.txt", FileMode.Open, FileAccess.Read);
            // StreamReader sr = new StreamReader(fs);
            // string str;
            // List<string> ls = new List<string>();

@@ -15,6 +15,8 @@ namespace XORGanizer
     {
         MainForm MainForm;
 
+        public static Event sharedEvent;
+
         public void SetMainForm(MainForm mainForm) { MainForm = mainForm; }
 
         public EventConfiguringForm()
@@ -47,6 +49,8 @@ namespace XORGanizer
                 levelOfImportance,
                 descriptionTextBox.Text);
 
+            sharedEvent = addedEvent;
+
             DateTime timeForNewDay = new DateTime(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
                 int.Parse(beginningDateTimePicker.Value.Month.ToString()),
                 int.Parse(beginningDateTimePicker.Value.Day.ToString()));
@@ -77,14 +81,14 @@ namespace XORGanizer
                     "Невозможно добавить событие", MessageBoxButtons.OK);
             }
 
-          
-            
-        //    ListViewItem listLoad = new ListViewItem(new string[] {"" ,addedEvent.Description,  addedEvent.Importance.ToString(), addedEvent.Starting.ToString(), addedEvent.Ending.ToString()});
-        //eventsListView.Items.Add(listLoad);
+
+
+            ListViewItem lol = new ListViewItem(new string[] {"" , EventConfiguringForm.sharedEvent.Description, EventConfiguringForm.sharedEvent.Importance.ToString(), EventConfiguringForm.sharedEvent.Starting.ToString(), EventConfiguringForm.sharedEvent.Ending.ToString() });
+            MainForm.eventsListView.Items.Add(lol);
 
 
             //  //запишем это дело в файл
-            FileStream FS = new FileStream("E:\\List_of_events.txt", FileMode.Append);
+            FileStream FS = new FileStream(MainForm.listOfEventsPath + "\\List.txt", FileMode.Append);
             StreamWriter WR = new StreamWriter(FS);
             WR.Write( "" +"|");
             WR.Write(addedEvent.Description + "|");
