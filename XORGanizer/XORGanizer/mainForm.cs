@@ -17,7 +17,14 @@ namespace XORGanizer
     {
         public SortedList<DateTime, Day> listOfDays = new SortedList<DateTime, Day>();
 
-        private const string listOfEventsPath = "D:\\List of events.txt";
+        EventConfiguringForm eventConfiguringForm;
+      
+        public void Set(EventConfiguringForm of)
+        {
+            this.eventConfiguringForm = of;
+        }
+    
+        //   private const string listOfEventsPath = "C:\\List_of_events.txt";
         public MainForm()
         {
             InitializeComponent();
@@ -26,22 +33,25 @@ namespace XORGanizer
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //if (File.Exists(listOfEventsPath))
-            //{
-            //    StreamReader reader = new StreamReader(listOfEventsPath);
-            //    string line;
-            //    while ((line = reader.ReadLine()) != null)
-            //    {
-            //        string[] values = line.Split('|');
+            if (File.Exists("E:\\List_of_events.txt"))
+            {
+                StreamReader reader = new StreamReader("E:\\List_of_events.txt");
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] values = line.Split('|');
 
-            //        eventsListView.Items.Add(new ListViewItem(values));
-            //    }
-            //    reader.Close();
-            //}
-            //else
-            //{
-            //    FileStream FS2 = new FileStream(listOfEventsPath, FileMode.Create);
-            //}
+                    eventsListView.Items.Add(new ListViewItem(values));
+                }
+                reader.Close();
+            }
+            else
+            {
+                FileStream FS2 = new FileStream("E:\\List_of_events.txt", FileMode.Create);
+            }
+
+
+          
 
             //такая конструкция красивее. надо переделать под неё
             //eventsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
@@ -55,10 +65,17 @@ namespace XORGanizer
             //    eventsListView.Items.Add(new ListViewItem(values));
             //}
 
-            //   ListViewItem loll = new ListViewItem(new string[] { this.Description, addedEvent.Starting.ToString(), addedEvent.Ending.ToString(), addedEvent.isUrgent.ToString() });
-            //  eventsListView.Items.Add(loll);
+       //     eventsListView.Items.Add(listLoad);
 
             //  reader.Close();
+
+            //вот тут я бы поспорил чей код лучше
+
+            eventsListView.View = View.Details;
+            eventsListView.Columns.Add("descr", 200);
+            eventsListView.Columns.Add("start", 120);
+            eventsListView.Columns.Add("end", 120);
+            eventsListView.Columns.Add("isurgent", 50);
 
             eventsListView.Columns.Add(columnHeadeIndex);
             eventsListView.Columns.Add(columnHeadeDescription);
@@ -75,29 +92,32 @@ namespace XORGanizer
             eventConfiguringForm.Show();
 
 
+            ArrayList A = new ArrayList();
+            A.Add(beginningDateTimePicker.Value);
+            A.Add(endingDateTimePicker.Value);
+            A.Add(descriptionTextBox.Text);
+            A.Add(importanceGroupBox)
 
-          //  //ListViewItem lol = new ListViewItem(new string[] { addedEvent.Description, addedEvent.Starting.ToString(), addedEvent.Ending.ToString(), addedEvent.isUrgent.ToString() });
-          //  eventsListView.Items.Add(lol);
-
-
-
-          //  //eventsListView.Items.Add(addedEvent.Description);
-          //  //eventsListView.Items.Add(addedEvent.Starting.ToString());
-          //  //eventsListView.Items.Add(addedEvent.Ending.ToString());
-          //  //eventsListView.Items.Add(addedEvent.isUrgent.ToString());
-          //  //добаляем листвью наши строки
+            //ListViewItem lol = new ListViewItem(new string[] { addedEvent.Description, addedEvent.Starting.ToString(), addedEvent.Ending.ToString(), addedEvent.isUrgent.ToString() });
+            //eventsListView.Items.Add(lol);
 
 
-          //  //запишем это дело в файл
-          //  FileStream FS = new FileStream("D:\\lol.txt", FileMode.Append);
-          //  StreamWriter WR = new StreamWriter(FS);
-          //  WR.Write(addedEvent.Description + "|");
-          //  WR.Write(addedEvent.Starting + "|");
-          //  WR.Write(addedEvent.Ending + "|");
-          //  //WR.Write(addedEvent.Fulfillment);
-          //  WR.WriteLine();
+            //  //eventsListView.Items.Add(addedEvent.Description);
+            //  //eventsListView.Items.Add(addedEvent.Starting.ToString());
+            //  //eventsListView.Items.Add(addedEvent.Ending.ToString());
+            //  //eventsListView.Items.Add(addedEvent.isUrgent.ToString());
+            //  //добаляем листвью наши строки
 
-          //  WR.Close();
+
+            //  //запишем это дело в файл
+            //  FileStream FS = new FileStream("D:\\lol.txt", FileMode.Append);
+            //  StreamWriter WR = new StreamWriter(FS);
+            //  WR.Write(addedEvent.Description + "|");
+            //  WR.Write(addedEvent.Starting + "|");
+            //  WR.Write(addedEvent.Ending + "|");
+            //  //WR.Write(addedEvent.Fulfillment);
+            //  WR.WriteLine();
+            //  WR.Close();
         }
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,6 +76,24 @@ namespace XORGanizer
                 MessageBox.Show("Время начал добавляемого события совпадает со временем начала уже добавленного события",
                     "Невозможно добавить событие", MessageBoxButtons.OK);
             }
+
+          
+            
+        //    ListViewItem listLoad = new ListViewItem(new string[] {"" ,addedEvent.Description,  addedEvent.Importance.ToString(), addedEvent.Starting.ToString(), addedEvent.Ending.ToString()});
+        //eventsListView.Items.Add(listLoad);
+
+
+            //  //запишем это дело в файл
+            FileStream FS = new FileStream("E:\\List_of_events.txt", FileMode.Append);
+            StreamWriter WR = new StreamWriter(FS);
+            WR.Write( "" +"|");
+            WR.Write(addedEvent.Description + "|");
+            WR.Write(addedEvent.Importance + "|");
+            WR.Write(addedEvent.Starting + "|");
+            WR.Write(addedEvent.Ending + "|");
+            
+            WR.WriteLine();
+            WR.Close();
         }
     }
 }

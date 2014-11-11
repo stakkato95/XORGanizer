@@ -63,13 +63,13 @@
             this.columnHeadeBeginningTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()
             {
                 Text = "Начало",
-                Width = 50,
+                Width = 150,
                 TextAlign = System.Windows.Forms.HorizontalAlignment.Center
             }));
             this.columnHeadeEndingTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()
             {
                 Text = "Окончание",
-                Width = 70,
+                Width = 150,
                 TextAlign = System.Windows.Forms.HorizontalAlignment.Center
             }));
 
