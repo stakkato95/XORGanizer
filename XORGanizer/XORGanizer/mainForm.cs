@@ -15,7 +15,7 @@ namespace XORGanizer
 {
     public partial class MainForm : Form
     {
-        public SortedList<DateTime, Day> listOfDays = new SortedList<DateTime, Day>();
+        public Calendar listOfDays = new Calendar();
 
         EventConfiguringForm eventConfiguringForm;
       
@@ -76,6 +76,8 @@ namespace XORGanizer
             eventsListView.Columns.Add("Важность");
             eventsListView.Columns.Add("Начало");
             eventsListView.Columns.Add("Окончание");
+
+            eventsListView.Items.Clear();
         }
 
 

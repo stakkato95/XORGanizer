@@ -59,7 +59,7 @@ namespace XORGanizer
             {
                 if (MainForm.listOfDays.ContainsKey(timeForNewDay))
                 {
-                    MainForm.listOfDays[timeForNewDay].addEvent(addedEvent);
+                    MainForm.listOfDays[timeForNewDay].AddEvent(addedEvent);
 
                     this.Close();
                     MessageBox.Show("Событие успешно добавлено");
@@ -67,8 +67,8 @@ namespace XORGanizer
                 }
                 else
                 {
-                    MainForm.listOfDays.Add(timeForNewDay, new Day(timeForNewDay));
-                    MainForm.listOfDays[timeForNewDay].addEvent(addedEvent);
+                    MainForm.listOfDays.AddDay(timeForNewDay, new Day(timeForNewDay));
+                    MainForm.listOfDays[timeForNewDay].AddEvent(addedEvent);
 
                     this.Close();
                     MessageBox.Show("Событие успешно добавлено");

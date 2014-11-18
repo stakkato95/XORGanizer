@@ -24,7 +24,7 @@ namespace XORGanizer
             this.listOfEvents = new SortedList<DateTime, Event>();
         }
 
-        public void addEvent(Event someEvent)
+        public void AddEvent(Event someEvent)
         {
             if (listOfEvents.ContainsKey(someEvent.Starting))
             {
@@ -33,7 +33,7 @@ namespace XORGanizer
             listOfEvents.Add(someEvent.Starting, someEvent);
         }
 
-        public void deleteEvent(Event someEvent)
+        public void DeleteEvent(Event someEvent)
         {
             listOfEvents.Remove(someEvent.Starting);
         }
