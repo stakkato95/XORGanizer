@@ -15,8 +15,6 @@ namespace XORGanizer
     {
         MainForm MainForm;
 
-        public static Event sharedEvent;
-
         public void SetMainForm(MainForm mainForm) { MainForm = mainForm; }
 
         public EventConfiguringForm()
@@ -50,8 +48,6 @@ namespace XORGanizer
                 int.Parse(endingDateTimePicker.Value.Minute.ToString()),
                 levelOfImportance,
                 descriptionTextBox.Text);
-
-            sharedEvent = addedEvent;
 
             DateTime timeForNewDay = new DateTime(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
                 int.Parse(beginningDateTimePicker.Value.Month.ToString()),
@@ -107,6 +103,11 @@ namespace XORGanizer
             
             WR.WriteLine();
             WR.Close();
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
