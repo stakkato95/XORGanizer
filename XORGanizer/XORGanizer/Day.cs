@@ -30,6 +30,10 @@ namespace XORGanizer
             {
                 throw new Exception("The beginning time coincides with the beginning time of another event");
             }
+            if (someEvent.Starting > someEvent.Ending)
+            {
+                throw new InvalidTimeZoneException("The ending time is bigger than starting time");
+            }
             listOfEvents.Add(someEvent.Starting, someEvent);
         }
 

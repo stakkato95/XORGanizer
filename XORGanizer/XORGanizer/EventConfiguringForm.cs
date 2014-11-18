@@ -75,10 +75,17 @@ namespace XORGanizer
                     descriptionTextBox.Text = "";
                 }
             }
+            catch (InvalidTimeZoneException)
+            {
+                MessageBox.Show("Время начала добавляемого события меньше времени его окончания",
+                    "Невозможно добавить событие", MessageBoxButtons.OK);
+                //return;
+            }
             catch (Exception)
             {
-                MessageBox.Show("Время начал добавляемого события совпадает со временем начала уже добавленного события",
+                MessageBox.Show("Время начала добавляемого события совпадает со временем начала уже добавленного события",
                     "Невозможно добавить событие", MessageBoxButtons.OK);
+                //return;
             }
 
 

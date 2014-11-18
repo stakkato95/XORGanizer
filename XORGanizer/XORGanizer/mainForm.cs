@@ -41,6 +41,39 @@ namespace XORGanizer
                 {
                     string[] values = line.Split('|');
 
+
+
+                    Event addedEvent = new Event(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
+    int.Parse(beginningDateTimePicker.Value.Month.ToString()),
+    int.Parse(beginningDateTimePicker.Value.Day.ToString()),
+    int.Parse(beginningDateTimePicker.Value.Hour.ToString()),
+    int.Parse(beginningDateTimePicker.Value.Minute.ToString()),
+    int.Parse(endingDateTimePicker.Value.Year.ToString()),
+    int.Parse(endingDateTimePicker.Value.Month.ToString()),
+    int.Parse(endingDateTimePicker.Value.Day.ToString()),
+    int.Parse(endingDateTimePicker.Value.Hour.ToString()),
+    int.Parse(endingDateTimePicker.Value.Minute.ToString()),
+    levelOfImportance,
+    descriptionTextBox.Text);
+
+                    sharedEvent = addedEvent;
+
+                    DateTime timeForNewDay = new DateTime(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
+                        int.Parse(beginningDateTimePicker.Value.Month.ToString()),
+                        int.Parse(beginningDateTimePicker.Value.Day.ToString()));
+
+                    Day day = new Day();
+
+                    if (listOfDays.ContainsKey(timeForNewDay))
+                    {
+                        listOfDays[timeForNewDay].AddEvent(addedEvent);
+                    }
+                    else
+                    {
+                        listOfDays.AddDay(timeForNewDay, new Day(timeForNewDay));
+                        listOfDays[timeForNewDay].AddEvent(addedEvent);
+                    }
+
                     eventsListView.Items.Add(new ListViewItem(values));
                 }
                 reader.Close();
@@ -48,6 +81,7 @@ namespace XORGanizer
             else
             {
                 FileStream FS2 = new FileStream(listOfEventsPath + "\\List.txt", FileMode.Create);
+                FS2.Close();
             }
 
 
@@ -120,6 +154,8 @@ namespace XORGanizer
 
         private void monthCalendar_Click(object sender, DateRangeEventArgs e)
         {
+            eventsListView.Items.Clear();
+
             int index = 1;
             ListViewItem item = null;
             string importance = null;
