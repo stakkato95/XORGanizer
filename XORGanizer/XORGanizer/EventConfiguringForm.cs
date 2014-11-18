@@ -26,15 +26,17 @@ namespace XORGanizer
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            int levelOfImportance = 0;
+            int intValueOfImportance = 0;
             for (int i = 0; i < importanceGroupBox.Controls.Count; i++)
             {
                 if (((RadioButton)importanceGroupBox.Controls[i]).Checked)
                 {
-                    levelOfImportance = i;
+                    intValueOfImportance = i;
                     break;
                 }
             }
+
+            EventImportance levelOfImportance = (EventImportance)Enum.Parse(typeof(EventImportance), intValueOfImportance.ToString(), true);
 
             Event addedEvent = new Event(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
                 int.Parse(beginningDateTimePicker.Value.Month.ToString()),
@@ -77,7 +79,7 @@ namespace XORGanizer
             }
             catch (InvalidTimeZoneException)
             {
-                MessageBox.Show("Время начала добавляемого события меньше времени его окончания",
+                MessageBox.Show("Время начала добавляемого события больше времени его окончания",
                     "Невозможно добавить событие", MessageBoxButtons.OK);
                 //return;
             }
@@ -89,12 +91,12 @@ namespace XORGanizer
             }
 
 
+            DateRangeEventArgs args = new DateRangeEventArgs(timeForNewDay, DateTime.Now);
+            MainForm.monthCalendar.SelectionStart = timeForNewDay;
+            MainForm.monthCalendar.SelectionEnd = timeForNewDay;
+            MainForm.monthCalendar_Click(null, args);
 
-            ListViewItem lol = new ListViewItem(new string[] {"" , EventConfiguringForm.sharedEvent.Description, EventConfiguringForm.sharedEvent.Importance.ToString(), EventConfiguringForm.sharedEvent.Starting.ToString(), EventConfiguringForm.sharedEvent.Ending.ToString() });
-            MainForm.eventsListView.Items.Add(lol);
-
-
-            //  //запишем это дело в файл
+            //запишем это дело в файл
             FileStream FS = new FileStream(MainForm.listOfEventsPath + "\\List.txt", FileMode.Append);
             StreamWriter WR = new StreamWriter(FS);
             WR.Write( "" +"|");

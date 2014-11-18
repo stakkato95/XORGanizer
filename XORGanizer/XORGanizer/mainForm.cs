@@ -41,28 +41,41 @@ namespace XORGanizer
                 {
                     string[] values = line.Split('|');
 
+                    //starting parameters for the event
+                    string[] fullStartingDate = values[3].Split(' ');
+                    string[] startingDayMonthYear = fullStartingDate[0].Split('.');
+                    int[] parsedStartingDayMonthYear = startingDayMonthYear.OfType<string>().Select(str => int.Parse(str)).ToArray();
 
+                    string[] startingHourMinuteSecond= fullStartingDate[1].Split(':');
+                    int[] parsedStartingHourMinute = startingHourMinuteSecond.OfType<string>().Select(str => int.Parse(str)).ToArray();
 
-                    Event addedEvent = new Event(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
-    int.Parse(beginningDateTimePicker.Value.Month.ToString()),
-    int.Parse(beginningDateTimePicker.Value.Day.ToString()),
-    int.Parse(beginningDateTimePicker.Value.Hour.ToString()),
-    int.Parse(beginningDateTimePicker.Value.Minute.ToString()),
-    int.Parse(endingDateTimePicker.Value.Year.ToString()),
-    int.Parse(endingDateTimePicker.Value.Month.ToString()),
-    int.Parse(endingDateTimePicker.Value.Day.ToString()),
-    int.Parse(endingDateTimePicker.Value.Hour.ToString()),
-    int.Parse(endingDateTimePicker.Value.Minute.ToString()),
-    levelOfImportance,
-    descriptionTextBox.Text);
+                    //ending parameters for the event
+                    string[] fullEndingDate = values[4].Split(' ');
+                    string[] enfdingDayMonthYear = fullEndingDate[0].Split('.');
+                    int[] parsedEndingDayMonthYear = enfdingDayMonthYear.OfType<string>().Select(str => int.Parse(str)).ToArray();
 
-                    sharedEvent = addedEvent;
+                    string[] endingHourMinuteSecond = fullEndingDate[1].Split(':');
+                    int[] parsedEndingHourMinute = endingHourMinuteSecond.OfType<string>().Select(str => int.Parse(str)).ToArray();
 
-                    DateTime timeForNewDay = new DateTime(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
-                        int.Parse(beginningDateTimePicker.Value.Month.ToString()),
-                        int.Parse(beginningDateTimePicker.Value.Day.ToString()));
+                    //importance parameter for the event
+                    EventImportance levelOfImportance = (EventImportance)Enum.Parse(typeof(EventImportance), values[2], true);
 
-                    Day day = new Day();
+                    Event addedEvent = new Event(parsedStartingDayMonthYear[2],
+                        parsedStartingDayMonthYear[1],
+                        parsedStartingDayMonthYear[0],
+                        parsedStartingHourMinute[0],
+                        parsedStartingHourMinute[1],
+                        parsedEndingDayMonthYear[2],
+                        parsedEndingDayMonthYear[1],
+                        parsedEndingDayMonthYear[0],
+                        parsedEndingHourMinute[0],
+                        parsedEndingHourMinute[1],
+                        levelOfImportance,
+                        values[0]);
+
+                    DateTime timeForNewDay = new DateTime(parsedStartingDayMonthYear[2],
+                        parsedStartingDayMonthYear[1],
+                        parsedStartingDayMonthYear[0]);
 
                     if (listOfDays.ContainsKey(timeForNewDay))
                     {
@@ -73,8 +86,6 @@ namespace XORGanizer
                         listOfDays.AddDay(timeForNewDay, new Day(timeForNewDay));
                         listOfDays[timeForNewDay].AddEvent(addedEvent);
                     }
-
-                    eventsListView.Items.Add(new ListViewItem(values));
                 }
                 reader.Close();
             }
@@ -105,13 +116,13 @@ namespace XORGanizer
 
             //вот тут я бы поспорил чей код лучше
 
-            eventsListView.Columns.Add("№");
             eventsListView.Columns.Add("Описание");
             eventsListView.Columns.Add("Важность");
             eventsListView.Columns.Add("Начало");
             eventsListView.Columns.Add("Окончание");
 
-            eventsListView.Items.Clear();
+            DateRangeEventArgs args = new DateRangeEventArgs(new DateTime(int.Parse(DateTime.Now.Year.ToString()), int.Parse(DateTime.Now.Month.ToString()), int.Parse(DateTime.Now.Day.ToString())), DateTime.Now);
+            monthCalendar_Click(null, args);
         }
 
 
@@ -152,11 +163,10 @@ namespace XORGanizer
         }
 
 
-        private void monthCalendar_Click(object sender, DateRangeEventArgs e)
+        public void monthCalendar_Click(object sender, DateRangeEventArgs e)
         {
             eventsListView.Items.Clear();
 
-            int index = 1;
             ListViewItem item = null;
             string importance = null;
 
@@ -166,34 +176,13 @@ namespace XORGanizer
                 {
                     importance = selectedDayEvent.Value.Importance == EventImportance.Middle ? "Средняя" : (selectedDayEvent.Value.Importance == EventImportance.Low ? "Низкая" : "Высокая");
 
-                    item = new ListViewItem(index.ToString());
-                    item.SubItems.Add(selectedDayEvent.Value.Description.ToString());
+                    item = new ListViewItem(selectedDayEvent.Value.Description.ToString());
                     item.SubItems.Add(importance);
                     item.SubItems.Add(selectedDayEvent.Value.Starting.ToShortTimeString());
                     item.SubItems.Add(selectedDayEvent.Value.Ending.ToShortTimeString());
                     eventsListView.Items.Add(item);
-                    index++;
                 }
             }
-        }
-
-        private void monthCalendar_DateChanged(object sender, DateRangeEventArgs e)
-        {
-
-
-            // FileStream fs = new FileStream(listOfEventsPath + "lol.txt", FileMode.Open, FileAccess.Read);
-           // StreamReader sr = new StreamReader(fs);
-           // string str;
-           // List<string> ls = new List<string>();
-
-           // while ((str = sr.ReadLine()) != null)
-           // {
-           //     ls.Add(str);
-           // }
-
-           //int d = int.Parse(monthCalendar.SelectionStart.Day.ToString());
-           //int y = int.Parse(monthCalendar.SelectionStart.Year.ToString());
-           //int m = int.Parse(monthCalendar.SelectionStart.Month.ToString());
         }
     }
 }
