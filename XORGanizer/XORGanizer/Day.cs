@@ -44,13 +44,7 @@ namespace XORGanizer
 
         public IEnumerator GetEnumerator()
         {
-            for (int i = 0; i < listOfEvents.Count; i++)
-            {
-                if (i == listOfEvents.Count)
-                    yield break;
-                yield return listOfEvents.ElementAt(i);
-            }
+            return listOfEvents.TakeWhile((t, i) => i != listOfEvents.Count).Select((t, i) => listOfEvents.ElementAt(i)).GetEnumerator();
         }
-
     }
 }
