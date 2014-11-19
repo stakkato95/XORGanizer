@@ -92,17 +92,17 @@ namespace XORGanizer
             MainForm.monthCalendar.SelectionEnd = timeForNewDay;
             MainForm.monthCalendar_Click(null, args);
 
-            //запишем это дело в файл
-            FileStream FS = new FileStream(MainForm.listOfEventsPath + "\\List.txt", FileMode.Append);
-            StreamWriter WR = new StreamWriter(FS);
-            WR.Write( "" +"|");
-            WR.Write(addedEvent.Description + "|");
-            WR.Write(addedEvent.Importance + "|");
-            WR.Write(addedEvent.Starting + "|");
-            WR.Write(addedEvent.Ending + "|");
+            ////запишем это дело в файл
+            //FileStream FS = new FileStream(MainForm.listOfEventsPath + "\\List.txt", FileMode.Append);
+            //StreamWriter WR = new StreamWriter(FS);
+            //WR.Write( "" +"|");
+            //WR.Write(addedEvent.Description + "|");
+            //WR.Write(addedEvent.Importance + "|");
+            //WR.Write(addedEvent.Starting + "|");
+            //WR.Write(addedEvent.Ending + "|");
             
-            WR.WriteLine();
-            WR.Close();
+            //WR.WriteLine();
+            //WR.Close();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

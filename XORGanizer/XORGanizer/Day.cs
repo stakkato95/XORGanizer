@@ -44,7 +44,6 @@ namespace XORGanizer
 
         public IEnumerator GetEnumerator()
         {
-
             for (int i = 0; i < listOfEvents.Count; i++)
             {
                 if (i == listOfEvents.Count)

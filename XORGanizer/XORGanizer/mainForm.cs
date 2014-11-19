@@ -18,13 +18,14 @@ namespace XORGanizer
         public Calendar listOfDays = new Calendar();
 
         EventConfiguringForm eventConfiguringForm;
+
+        public static string listOfEventsPath = Environment.CurrentDirectory;
       
         public void Set(EventConfiguringForm of)
         {
             this.eventConfiguringForm = of;
         }
 
-        public static string listOfEventsPath = Environment.CurrentDirectory;
         public MainForm()
         {
             InitializeComponent();
@@ -182,6 +183,31 @@ namespace XORGanizer
                     eventsListView.Items.Add(item);
                 }
             }
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            File.Delete(MainForm.listOfEventsPath + "\\List.txt");
+
+            FileStream FS = new FileStream(MainForm.listOfEventsPath + "\\List.txt", FileMode.Create);
+            StreamWriter WR = new StreamWriter(FS);
+
+            foreach (Day day in listOfDays)
+            {
+                foreach (Event evnt in day)
+                {
+                    WR.Write("" + "|");
+                    WR.Write(evnt.Description + "|");
+                    WR.Write(evnt.Importance + "|");
+                    WR.Write(evnt.Starting + "|");
+                    WR.Write(evnt.Ending + "|");
+
+                    WR.WriteLine();
+                }
+            }
+
+            WR.Close();
+            FS.Close();
         }
     }
 }

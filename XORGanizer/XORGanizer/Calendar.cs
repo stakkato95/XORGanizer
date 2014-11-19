@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,5 +39,14 @@ namespace XORGanizer
             }
         }
 
+        public IEnumerator GetEnumerator()
+        {
+            for (int i = 0; i < listOfDays.Count; i++)
+            {
+                if (i == listOfDays.Count)
+                    yield break;
+                yield return listOfDays.ElementAt(i);
+            }
+        }
     }
 }

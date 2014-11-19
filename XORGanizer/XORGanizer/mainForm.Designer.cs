@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
             this.monthCalendar = new System.Windows.Forms.MonthCalendar();
             this.eventsListView = new System.Windows.Forms.ListView();
             this.addEventButton = new System.Windows.Forms.Button();
@@ -56,9 +56,9 @@
             this.eventsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            listViewItem1.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
             this.eventsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem2});
             this.eventsListView.Location = new System.Drawing.Point(194, 17);
             this.eventsListView.Name = "eventsListView";
             this.eventsListView.Size = new System.Drawing.Size(450, 196);
@@ -138,13 +138,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(656, 226);
+            this.ClientSize = new System.Drawing.Size(656, 227);
             this.Controls.Add(this.addEventButton);
             this.Controls.Add(this.eventsListView);
             this.Controls.Add(this.monthCalendar);
             this.MinimumSize = new System.Drawing.Size(672, 265);
             this.Name = "MainForm";
             this.Text = "XORGanizer";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
