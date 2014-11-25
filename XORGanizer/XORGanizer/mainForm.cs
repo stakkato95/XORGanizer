@@ -108,14 +108,8 @@ namespace XORGanizer
         private void addEventButton_Click(object sender, EventArgs e)
         {
             EventConfiguringForm eventConfiguringForm = new EventConfiguringForm();
-            eventConfiguringForm.SetMainForm(this);
+            eventConfiguringForm.SetListOfDays(ref listOfDays);
             eventConfiguringForm.Show();
-
-
-            ArrayList A = new ArrayList();
-            A.Add(beginningDateTimePicker.Value);
-            A.Add(endingDateTimePicker.Value);
-            A.Add(descriptionTextBox.Text);
         }
 
 
@@ -179,7 +173,7 @@ namespace XORGanizer
             Event editedEvent = new Event(yearMonthDay.Year, yearMonthDay.Month, yearMonthDay.Day, beginningHourMinute[0], beginningHourMinute[1], yearMonthDay.Year, yearMonthDay.Month, yearMonthDay.Day, endingHourMinute[0], endingHourMinute[1], importance, description);
 
             EventConfiguringForm eventConfiguringForm = new EventConfiguringForm();
-            eventConfiguringForm.SetMainForm(this);
+            eventConfiguringForm.SetListOfDays(ref listOfDays);
             eventConfiguringForm.EditingMod = true;
             eventConfiguringForm.EditedEvent = editedEvent;
             eventConfiguringForm.Show();

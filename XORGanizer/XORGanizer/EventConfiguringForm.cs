@@ -13,12 +13,13 @@ namespace XORGanizer
 {
     public partial class EventConfiguringForm : Form
     {
+        private Calendar listOfDays;
         public Event EditedEvent;
         public bool EditingMod;
 
         MainForm MainForm;
 
-        public void SetMainForm(MainForm mainForm) { MainForm = mainForm; }
+        public void SetListOfDays(ref Calendar listOfDays) { this.listOfDays = listOfDays; }
 
         public EventConfiguringForm()
         {
@@ -36,19 +37,19 @@ namespace XORGanizer
 
                 try
                 {
-                    if (MainForm.listOfDays.ContainsKey(timeForNewDay))
+                    if (listOfDays.ContainsKey(timeForNewDay))
                     {
-                        MainForm.listOfDays[timeForNewDay].DeleteEvent(EditedEvent);
-                        MainForm.listOfDays[timeForNewDay].AddEvent(addedEvent);
+                        listOfDays[timeForNewDay].DeleteEvent(EditedEvent);
+                        listOfDays[timeForNewDay].AddEvent(addedEvent);
 
                         this.Close();
                         MessageBox.Show("Событие успешно отредактированио");
                     }
                     else
                     {
-                        MainForm.listOfDays.AddDay(timeForNewDay, new Day(timeForNewDay));
-                        MainForm.listOfDays[timeForNewDay].DeleteEvent(EditedEvent);
-                        MainForm.listOfDays[timeForNewDay].AddEvent(addedEvent);
+                        listOfDays.AddDay(timeForNewDay, new Day(timeForNewDay));
+                        listOfDays[timeForNewDay].DeleteEvent(EditedEvent);
+                        listOfDays[timeForNewDay].AddEvent(addedEvent);
 
                         this.Close();
                         MessageBox.Show("Событие успешно отредактированио");
@@ -71,9 +72,9 @@ namespace XORGanizer
 
                 try
                 {
-                    if (MainForm.listOfDays.ContainsKey(timeForNewDay))
+                    if (listOfDays.ContainsKey(timeForNewDay))
                     {
-                        MainForm.listOfDays[timeForNewDay].AddEvent(addedEvent);
+                        listOfDays[timeForNewDay].AddEvent(addedEvent);
 
                         this.Close();
                         MessageBox.Show("Событие успешно добавлено");
@@ -81,8 +82,8 @@ namespace XORGanizer
                     }
                     else
                     {
-                        MainForm.listOfDays.AddDay(timeForNewDay, new Day(timeForNewDay));
-                        MainForm.listOfDays[timeForNewDay].AddEvent(addedEvent);
+                        listOfDays.AddDay(timeForNewDay, new Day(timeForNewDay));
+                        listOfDays[timeForNewDay].AddEvent(addedEvent);
 
                         this.Close();
                         MessageBox.Show("Событие успешно добавлено");
@@ -106,10 +107,10 @@ namespace XORGanizer
             
 
 
-            DateRangeEventArgs args = new DateRangeEventArgs(timeForNewDay, DateTime.Now);
-            MainForm.monthCalendar.SelectionStart = timeForNewDay;
-            MainForm.monthCalendar.SelectionEnd = timeForNewDay;
-            MainForm.monthCalendar_Click(null, args);
+            //DateRangeEventArgs args = new DateRangeEventArgs(timeForNewDay, DateTime.Now);
+            //monthCalendar.SelectionStart = timeForNewDay;
+            //monthCalendar.SelectionEnd = timeForNewDay;
+            //monthCalendar_Click(null, args);
         }
 
         private void PrimaryEventSetting(ref Event addedEvent, ref DateTime timeForNewDay)
