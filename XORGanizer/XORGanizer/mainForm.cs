@@ -71,7 +71,7 @@ namespace XORGanizer
                         parsedEndingHourMinute[0],
                         parsedEndingHourMinute[1],
                         levelOfImportance,
-                        values[0]);
+                        values[1]);
 
                     DateTime timeForNewDay = new DateTime(parsedStartingDayMonthYear[2],
                         parsedStartingDayMonthYear[1],
@@ -95,27 +95,6 @@ namespace XORGanizer
                 FS2.Close();
             }
 
-
-          
-
-            //такая конструкция красивее. надо переделать под неё
-            //eventsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            //listViewItem1});
-
-            //if (listOfEventsPath != null)
-            //{
-            //    line = reader.ReadToEnd();
-            //    string[] values = line.Split('|');
-
-            //    eventsListView.Items.Add(new ListViewItem(values));
-            //}
-
-       //     eventsListView.Items.Add(listLoad);
-
-            //  reader.Close();
-
-            //вот тут я бы поспорил чей код лучше
-
             eventsListView.Columns.Add("Описание");
             eventsListView.Columns.Add("Важность");
             eventsListView.Columns.Add("Начало");
@@ -132,34 +111,11 @@ namespace XORGanizer
             eventConfiguringForm.SetMainForm(this);
             eventConfiguringForm.Show();
 
-            //monthCalendar.TodayDate = monthCalendar.TodayDate;
 
             ArrayList A = new ArrayList();
             A.Add(beginningDateTimePicker.Value);
             A.Add(endingDateTimePicker.Value);
             A.Add(descriptionTextBox.Text);
-            //A.Add(importanceGroupBox);
-
-            //ListViewItem lol = new ListViewItem(new string[] { EventConfiguringForm.sharedEvent.Description, EventConfiguringForm.sharedEvent.Starting.ToString(), EventConfiguringForm.sharedEvent.Ending.ToString(), EventConfiguringForm.sharedEvent.Importance.ToString() });
-            //eventsListView.Items.Add(lol);
-
-
-            //  //eventsListView.Items.Add(addedEvent.Description);
-            //  //eventsListView.Items.Add(addedEvent.Starting.ToString());
-            //  //eventsListView.Items.Add(addedEvent.Ending.ToString());
-            //  //eventsListView.Items.Add(addedEvent.isUrgent.ToString());
-            //  //добаляем листвью наши строки
-
-
-            //  //запишем это дело в файл
-            //  FileStream FS = new FileStream("D:\\lol.txt", FileMode.Append);
-            //  StreamWriter WR = new StreamWriter(FS);
-            //  WR.Write(addedEvent.Description + "|");
-            //  WR.Write(addedEvent.Starting + "|");
-            //  WR.Write(addedEvent.Ending + "|");
-            //  //WR.Write(addedEvent.Fulfillment);
-            //  WR.WriteLine();
-            //  WR.Close();
         }
 
 
@@ -192,15 +148,15 @@ namespace XORGanizer
             FileStream FS = new FileStream(MainForm.listOfEventsPath + "\\List.txt", FileMode.Create);
             StreamWriter WR = new StreamWriter(FS);
 
-            foreach (Day day in listOfDays)
+            foreach (KeyValuePair<DateTime, Day> day in listOfDays)
             {
-                foreach (Event evnt in day)
+                foreach (KeyValuePair<DateTime, Event> evnt in day.Value)
                 {
                     WR.Write("" + "|");
-                    WR.Write(evnt.Description + "|");
-                    WR.Write(evnt.Importance + "|");
-                    WR.Write(evnt.Starting + "|");
-                    WR.Write(evnt.Ending + "|");
+                    WR.Write(evnt.Value.Description + "|");
+                    WR.Write(evnt.Value.Importance + "|");
+                    WR.Write(evnt.Value.Starting + "|");
+                    WR.Write(evnt.Value.Ending + "|");
 
                     WR.WriteLine();
                 }
@@ -208,6 +164,25 @@ namespace XORGanizer
 
             WR.Close();
             FS.Close();
+        }
+
+        private void eventsListView_DoubleClick(object sender, MouseEventArgs e)
+        {
+            ListViewItem selectedItem = eventsListView.SelectedItems[0];
+            string description = selectedItem.SubItems[0].Text;
+            EventImportance importance = selectedItem.SubItems[1].Text == "Средняя" ? EventImportance.Middle : selectedItem.SubItems[1].Text == "Низкая" ? EventImportance.Low : EventImportance.High;
+
+            DateTime yearMonthDay = monthCalendar.SelectionStart;
+            int[] beginningHourMinute = selectedItem.SubItems[2].Text.Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
+            int[] endingHourMinute = selectedItem.SubItems[3].Text.Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
+
+            Event editedEvent = new Event(yearMonthDay.Year, yearMonthDay.Month, yearMonthDay.Day, beginningHourMinute[0], beginningHourMinute[1], yearMonthDay.Year, yearMonthDay.Month, yearMonthDay.Day, endingHourMinute[0], endingHourMinute[1], importance, description);
+
+            EventConfiguringForm eventConfiguringForm = new EventConfiguringForm();
+            eventConfiguringForm.SetMainForm(this);
+            eventConfiguringForm.EditingMod = true;
+            eventConfiguringForm.EditedEvent = editedEvent;
+            eventConfiguringForm.Show();
         }
     }
 }

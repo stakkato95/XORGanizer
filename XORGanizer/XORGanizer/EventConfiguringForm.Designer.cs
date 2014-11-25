@@ -179,6 +179,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "EventConfiguringForm";
             this.Text = "Настройка события";
+            this.Load += new System.EventHandler(this.EventConfiguringForm_Load);
             this.importanceGroupBox.ResumeLayout(false);
             this.importanceGroupBox.PerformLayout();
             this.ResumeLayout(false);
