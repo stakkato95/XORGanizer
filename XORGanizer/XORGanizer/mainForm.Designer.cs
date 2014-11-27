@@ -155,8 +155,8 @@
 
         #endregion
 
-        public System.Windows.Forms.MonthCalendar monthCalendar;
-        public System.Windows.Forms.ListView eventsListView;
+        private System.Windows.Forms.MonthCalendar monthCalendar;
+        private System.Windows.Forms.ListView eventsListView;
         private System.Windows.Forms.Button addEventButton;
         private System.Windows.Forms.TextBox descriptionTextBox;
         private System.Windows.Forms.DateTimePicker beginningDateTimePicker;

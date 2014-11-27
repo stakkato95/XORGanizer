@@ -151,6 +151,7 @@
             this.okButton.Text = "ОК";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             // 
             // cancelButton
             // 
@@ -161,6 +162,7 @@
             this.cancelButton.Text = "Отмена";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             // 
             // EventConfiguringForm
             // 

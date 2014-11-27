@@ -15,9 +15,10 @@ namespace XORGanizer
     {
         private Calendar listOfDays;
         public Event EditedEvent;
+        public Event NewEvent;
         public bool EditingMod;
-
-        MainForm MainForm;
+        public DateTime TimeForNewDay;
+        public DateTime TimeForEditedEvent;
 
         public void SetListOfDays(ref Calendar listOfDays) { this.listOfDays = listOfDays; }
 
@@ -28,89 +29,14 @@ namespace XORGanizer
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            Event addedEvent = null;
-            DateTime timeForNewDay = new DateTime();
-
-            if (EditingMod)
-            {
-                PrimaryEventSetting(ref addedEvent, ref timeForNewDay);
-
-                try
-                {
-                    if (listOfDays.ContainsKey(timeForNewDay))
-                    {
-                        listOfDays[timeForNewDay].DeleteEvent(EditedEvent);
-                        listOfDays[timeForNewDay].AddEvent(addedEvent);
-
-                        this.Close();
-                        MessageBox.Show("Событие успешно отредактированио");
-                    }
-                    else
-                    {
-                        listOfDays.AddDay(timeForNewDay, new Day(timeForNewDay));
-                        listOfDays[timeForNewDay].DeleteEvent(EditedEvent);
-                        listOfDays[timeForNewDay].AddEvent(addedEvent);
-
-                        this.Close();
-                        MessageBox.Show("Событие успешно отредактированио");
-                    }
-                }
-                catch (InvalidTimeZoneException)
-                {
-                    MessageBox.Show("Время начала редактируемого события больше времени его окончания",
-                        "Невозможно добавить событие", MessageBoxButtons.OK);
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Время начала редактируемого события совпадает со временем начала уже существующего события",
-                        "Невозможно добавить событие", MessageBoxButtons.OK);
-                }
-            }
+            if(!EditingMod)
+                PrimaryEventSetting(ref NewEvent, ref TimeForNewDay);
             else
-            {
-                PrimaryEventSetting(ref addedEvent, ref timeForNewDay);
+                PrimaryEventSetting(ref NewEvent, ref TimeForNewDay);
 
-                try
-                {
-                    if (listOfDays.ContainsKey(timeForNewDay))
-                    {
-                        listOfDays[timeForNewDay].AddEvent(addedEvent);
-
-                        this.Close();
-                        MessageBox.Show("Событие успешно добавлено");
-                        descriptionTextBox.Text = "";
-                    }
-                    else
-                    {
-                        listOfDays.AddDay(timeForNewDay, new Day(timeForNewDay));
-                        listOfDays[timeForNewDay].AddEvent(addedEvent);
-
-                        this.Close();
-                        MessageBox.Show("Событие успешно добавлено");
-                        descriptionTextBox.Text = "";
-                    }
-                }
-                catch (InvalidTimeZoneException)
-                {
-                    MessageBox.Show("Время начала добавляемого события больше времени его окончания",
-                        "Невозможно добавить событие", MessageBoxButtons.OK);
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Время начала добавляемого события совпадает со временем начала уже существующего события",
-                        "Невозможно добавить событие", MessageBoxButtons.OK);
-                }
-            }
-
-
-
-            
-
-
-            //DateRangeEventArgs args = new DateRangeEventArgs(timeForNewDay, DateTime.Now);
-            //monthCalendar.SelectionStart = timeForNewDay;
-            //monthCalendar.SelectionEnd = timeForNewDay;
-            //monthCalendar_Click(null, args);
+            //ДАЛЬШЕ ПОПРОБОВАТЬ ЗАПИЛИТЬ ТАКУЮ КОНСТРУКЦИЮ
+            //((MainForm)sender).listOfDays;
+            //PrimaryEventSetting(ref ((MainForm)sender).NewEvent, ref ((MainForm)sender).TimeForNewDay);
         }
 
         private void PrimaryEventSetting(ref Event addedEvent, ref DateTime timeForNewDay)

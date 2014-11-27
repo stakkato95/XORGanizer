@@ -19,12 +19,7 @@ namespace XORGanizer
 
         EventConfiguringForm eventConfiguringForm;
 
-        public static string listOfEventsPath = Environment.CurrentDirectory;
-      
-        public void Set(EventConfiguringForm of)
-        {
-            this.eventConfiguringForm = of;
-        }
+        private static string listOfEventsPath = Environment.CurrentDirectory;
 
         public MainForm()
         {
@@ -109,7 +104,41 @@ namespace XORGanizer
         {
             EventConfiguringForm eventConfiguringForm = new EventConfiguringForm();
             eventConfiguringForm.SetListOfDays(ref listOfDays);
-            eventConfiguringForm.Show();
+            eventConfiguringForm.ShowDialog();
+            DialogResult = eventConfiguringForm.DialogResult;
+
+            if (DialogResult == System.Windows.Forms.DialogResult.OK)
+            {
+                try
+                {
+                    if (listOfDays.ContainsKey(eventConfiguringForm.TimeForNewDay))
+                    {
+                        listOfDays[eventConfiguringForm.TimeForNewDay].AddEvent(eventConfiguringForm.NewEvent);
+                        MessageBox.Show("Событие успешно добавлено");
+                    }
+                    else
+                    {
+                        listOfDays.AddDay(eventConfiguringForm.TimeForNewDay, new Day(eventConfiguringForm.TimeForNewDay));
+                        listOfDays[eventConfiguringForm.TimeForNewDay].AddEvent(eventConfiguringForm.NewEvent);
+                        MessageBox.Show("Событие успешно добавлено");
+                    }
+                }
+                catch (InvalidTimeZoneException)
+                {
+                    MessageBox.Show("Время начала события больше времени его окончания",
+                        "Невозможно добавить событие", MessageBoxButtons.OK);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Время начала события совпадает со временем начала уже существующего события",
+                        "Невозможно добавить событие", MessageBoxButtons.OK);
+                }
+
+                DateRangeEventArgs args = new DateRangeEventArgs(eventConfiguringForm.TimeForNewDay, DateTime.Now);
+                monthCalendar.SelectionStart = eventConfiguringForm.TimeForNewDay;
+                monthCalendar.SelectionEnd = eventConfiguringForm.TimeForNewDay;
+                monthCalendar_Click(null, args);
+            }
         }
 
 
@@ -166,17 +195,54 @@ namespace XORGanizer
             string description = selectedItem.SubItems[0].Text;
             EventImportance importance = selectedItem.SubItems[1].Text == "Средняя" ? EventImportance.Middle : selectedItem.SubItems[1].Text == "Низкая" ? EventImportance.Low : EventImportance.High;
 
-            DateTime yearMonthDay = monthCalendar.SelectionStart;
+            DateTime timeOfEditedEvent = monthCalendar.SelectionStart;
             int[] beginningHourMinute = selectedItem.SubItems[2].Text.Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
             int[] endingHourMinute = selectedItem.SubItems[3].Text.Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
 
-            Event editedEvent = new Event(yearMonthDay.Year, yearMonthDay.Month, yearMonthDay.Day, beginningHourMinute[0], beginningHourMinute[1], yearMonthDay.Year, yearMonthDay.Month, yearMonthDay.Day, endingHourMinute[0], endingHourMinute[1], importance, description);
+            Event editedEvent = new Event(timeOfEditedEvent.Year, timeOfEditedEvent.Month, timeOfEditedEvent.Day, beginningHourMinute[0], beginningHourMinute[1], timeOfEditedEvent.Year, timeOfEditedEvent.Month, timeOfEditedEvent.Day, endingHourMinute[0], endingHourMinute[1], importance, description);
 
             EventConfiguringForm eventConfiguringForm = new EventConfiguringForm();
             eventConfiguringForm.SetListOfDays(ref listOfDays);
-            eventConfiguringForm.EditingMod = true;
             eventConfiguringForm.EditedEvent = editedEvent;
-            eventConfiguringForm.Show();
+            eventConfiguringForm.EditingMod = true;
+            eventConfiguringForm.ShowDialog();
+            //AAAAAAAAAAAAAAAAAAAAAAAA WTF?????????????????????????????????????????
+            DialogResult = eventConfiguringForm.DialogResult;
+
+            if (DialogResult == System.Windows.Forms.DialogResult.OK)
+            {
+                try
+                {
+                    if (listOfDays.ContainsKey(eventConfiguringForm.TimeForNewDay))
+                    {
+                        listOfDays[timeOfEditedEvent].DeleteEvent(eventConfiguringForm.EditedEvent);
+                        listOfDays[eventConfiguringForm.TimeForNewDay].AddEvent(eventConfiguringForm.NewEvent);
+                        MessageBox.Show("Событие успешно отредактировано");
+                    }
+                    else
+                    {
+                        listOfDays.AddDay(eventConfiguringForm.TimeForNewDay, new Day(eventConfiguringForm.TimeForNewDay));
+                        listOfDays[timeOfEditedEvent].DeleteEvent(eventConfiguringForm.EditedEvent);
+                        listOfDays[eventConfiguringForm.TimeForNewDay].AddEvent(eventConfiguringForm.NewEvent);
+                        MessageBox.Show("Событие успешно отредактировано");
+                    }
+                }
+                catch (InvalidTimeZoneException)
+                {
+                    MessageBox.Show("Время начала события больше времени его окончания",
+                        "Невозможно добавить событие", MessageBoxButtons.OK);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Время начала события совпадает со временем начала уже существующего события",
+                        "Невозможно добавить событие", MessageBoxButtons.OK);
+                }
+
+                DateRangeEventArgs args = new DateRangeEventArgs(eventConfiguringForm.TimeForNewDay, DateTime.Now);
+                monthCalendar.SelectionStart = eventConfiguringForm.TimeForNewDay;
+                monthCalendar.SelectionEnd = eventConfiguringForm.TimeForNewDay;
+                monthCalendar_Click(null, args);
+            }
         }
     }
 }
