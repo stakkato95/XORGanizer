@@ -40,13 +40,19 @@
             this.endingDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.isUrgentCheckBox = new System.Windows.Forms.CheckBox();
             this.eventsLabel = new System.Windows.Forms.Label();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.добавитьСобытияИзФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Удалить = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // monthCalendar
             // 
             this.monthCalendar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.monthCalendar.Location = new System.Drawing.Point(18, 17);
+            this.monthCalendar.Location = new System.Drawing.Point(18, 33);
             this.monthCalendar.Name = "monthCalendar";
             this.monthCalendar.TabIndex = 4;
             this.monthCalendar.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar_Click);
@@ -59,9 +65,9 @@
             listViewItem1.StateImageIndex = 0;
             this.eventsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1});
-            this.eventsListView.Location = new System.Drawing.Point(194, 17);
+            this.eventsListView.Location = new System.Drawing.Point(194, 34);
             this.eventsListView.Name = "eventsListView";
-            this.eventsListView.Size = new System.Drawing.Size(450, 196);
+            this.eventsListView.Size = new System.Drawing.Size(450, 195);
             this.eventsListView.TabIndex = 5;
             this.eventsListView.UseCompatibleStateImageBehavior = false;
             this.eventsListView.View = System.Windows.Forms.View.Details;
@@ -71,7 +77,7 @@
             // 
             this.addEventButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.addEventButton.AutoSize = true;
-            this.addEventButton.Location = new System.Drawing.Point(18, 191);
+            this.addEventButton.Location = new System.Drawing.Point(18, 206);
             this.addEventButton.Name = "addEventButton";
             this.addEventButton.Size = new System.Drawing.Size(164, 23);
             this.addEventButton.TabIndex = 6;
@@ -135,19 +141,64 @@
             this.eventsLabel.Size = new System.Drawing.Size(100, 23);
             this.eventsLabel.TabIndex = 0;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.файлToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(656, 24);
+            this.menuStrip1.TabIndex = 7;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // файлToolStripMenuItem
+            // 
+            this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.добавитьСобытияИзФайлToolStripMenuItem,
+            this.Удалить,
+            this.выходToolStripMenuItem});
+            this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.файлToolStripMenuItem.Text = "Файл";
+            // 
+            // добавитьСобытияИзФайлToolStripMenuItem
+            // 
+            this.добавитьСобытияИзФайлToolStripMenuItem.Name = "добавитьСобытияИзФайлToolStripMenuItem";
+            this.добавитьСобытияИзФайлToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.добавитьСобытияИзФайлToolStripMenuItem.Text = "Добавить события из файла";
+            this.добавитьСобытияИзФайлToolStripMenuItem.Click += new System.EventHandler(this.добавитьСобытияИзФайлToolStripMenuItem_Click);
+            // 
+            // выходToolStripMenuItem
+            // 
+            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.выходToolStripMenuItem.Text = "Выход";
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
+            // 
+            // Удалить
+            // 
+            this.Удалить.Name = "Удалить";
+            this.Удалить.Size = new System.Drawing.Size(229, 22);
+            this.Удалить.Text = "Удалить";
+            this.Удалить.Click += new System.EventHandler(this.Удалить_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(656, 227);
+            this.ClientSize = new System.Drawing.Size(656, 241);
             this.Controls.Add(this.addEventButton);
             this.Controls.Add(this.eventsListView);
             this.Controls.Add(this.monthCalendar);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(672, 265);
             this.Name = "MainForm";
             this.Text = "XORGanizer";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -166,6 +217,11 @@
         private System.Windows.Forms.DateTimePicker endingDateTimePicker;
         private System.Windows.Forms.CheckBox isUrgentCheckBox;
         private System.Windows.Forms.Label eventsLabel;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem добавитьСобытияИзФайлToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Удалить;
 
     }
 }

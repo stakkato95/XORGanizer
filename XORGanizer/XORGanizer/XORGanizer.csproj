@@ -53,6 +53,12 @@
     <Compile Include="EventConfiguringForm.Designer.cs">
       <DependentUpon>EventConfiguringForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FileBrowse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileBrowse.Designer.cs">
+      <DependentUpon>FileBrowse.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +69,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="EventConfiguringForm.resx">
       <DependentUpon>EventConfiguringForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileBrowse.resx">
+      <DependentUpon>FileBrowse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
