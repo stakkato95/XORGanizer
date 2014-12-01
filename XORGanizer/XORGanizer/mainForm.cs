@@ -296,13 +296,6 @@ namespace XORGanizer
             CloseWrite();
             this.Close();
         }
-
-        private void Удалить_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-
         
     }
 }

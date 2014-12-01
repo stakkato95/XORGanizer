@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("");
             this.monthCalendar = new System.Windows.Forms.MonthCalendar();
             this.eventsListView = new System.Windows.Forms.ListView();
             this.addEventButton = new System.Windows.Forms.Button();
@@ -44,7 +44,6 @@
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьСобытияИзФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Удалить = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,9 +61,9 @@
             this.eventsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            listViewItem1.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
             this.eventsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem3});
             this.eventsListView.Location = new System.Drawing.Point(194, 34);
             this.eventsListView.Name = "eventsListView";
             this.eventsListView.Size = new System.Drawing.Size(450, 195);
@@ -155,7 +154,6 @@
             // 
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.добавитьСобытияИзФайлToolStripMenuItem,
-            this.Удалить,
             this.выходToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
@@ -174,13 +172,6 @@
             this.выходToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
-            // 
-            // Удалить
-            // 
-            this.Удалить.Name = "Удалить";
-            this.Удалить.Size = new System.Drawing.Size(229, 22);
-            this.Удалить.Text = "Удалить";
-            this.Удалить.Click += new System.EventHandler(this.Удалить_Click);
             // 
             // MainForm
             // 
@@ -221,7 +212,6 @@
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem добавитьСобытияИзФайлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem Удалить;
 
     }
 }
