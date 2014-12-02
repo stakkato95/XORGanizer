@@ -51,6 +51,7 @@
             this.beginningDateTimePicker.Name = "beginningDateTimePicker";
             this.beginningDateTimePicker.Size = new System.Drawing.Size(292, 20);
             this.beginningDateTimePicker.TabIndex = 9;
+            this.beginningDateTimePicker.ValueChanged += new System.EventHandler(this.beginningDateTimePicker_ValueChanged);
             // 
             // endingDateTimePicker
             // 
@@ -60,6 +61,7 @@
             this.endingDateTimePicker.Name = "endingDateTimePicker";
             this.endingDateTimePicker.Size = new System.Drawing.Size(292, 20);
             this.endingDateTimePicker.TabIndex = 17;
+            this.endingDateTimePicker.ValueChanged += new System.EventHandler(this.endingDateTimePicker_ValueChanged);
             // 
             // descriptionLabel
             // 
@@ -144,6 +146,7 @@
             // 
             // okButton
             // 
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButton.Location = new System.Drawing.Point(13, 166);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(175, 23);
@@ -151,10 +154,10 @@
             this.okButton.Text = "ОК";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
-            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             // 
             // cancelButton
             // 
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.Location = new System.Drawing.Point(197, 166);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(175, 23);
@@ -162,7 +165,6 @@
             this.cancelButton.Text = "Отмена";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             // 
             // EventConfiguringForm
             // 

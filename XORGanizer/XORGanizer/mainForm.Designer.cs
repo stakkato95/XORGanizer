@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
             this.monthCalendar = new System.Windows.Forms.MonthCalendar();
             this.eventsListView = new System.Windows.Forms.ListView();
             this.addEventButton = new System.Windows.Forms.Button();
@@ -61,9 +61,9 @@
             this.eventsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            listViewItem3.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
             this.eventsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3});
+            listViewItem1});
             this.eventsListView.Location = new System.Drawing.Point(194, 34);
             this.eventsListView.Name = "eventsListView";
             this.eventsListView.Size = new System.Drawing.Size(450, 195);

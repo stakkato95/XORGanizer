@@ -9,7 +9,7 @@ namespace XORGanizer
 {
     public class Calendar
     {
-        SortedList<DateTime, Day> listOfDays = new SortedList<DateTime, Day>();
+        private SortedList<DateTime, Day> listOfDays = new SortedList<DateTime, Day>();
 
         public void AddDay(DateTime dateTime, Day day)
         {

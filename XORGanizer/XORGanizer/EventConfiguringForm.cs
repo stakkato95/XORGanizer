@@ -13,14 +13,16 @@ namespace XORGanizer
 {
     public partial class EventConfiguringForm : Form
     {
-        private Calendar listOfDays;
-        public Event EditedEvent;
-        public Event NewEvent;
-        public bool EditingMod;
-        public DateTime TimeForNewDay;
-        public DateTime TimeForEditedEvent;
-
-        public void SetListOfDays(ref Calendar listOfDays) { this.listOfDays = listOfDays; }
+        public Event EditedEvent { get { return editedEvent; } set { editedEvent = value; } }
+        private Event editedEvent;
+        public Event NewEvent { get { return newEvent; } private set { newEvent = value; } }
+        private Event newEvent;
+        public bool EditingMod { get { return editingMod; } set { editingMod = value; } }
+        private bool editingMod;
+        public DateTime TimeForNewDay { get { return timeForNewDay; } private set { timeForNewDay = value; } }
+        private DateTime timeForNewDay;
+        public DateTime TimeForEditedEvent { get { return timeForEditedEvent; } private set { timeForEditedEvent = value; } }
+        private DateTime timeForEditedEvent;
 
         public EventConfiguringForm()
         {
@@ -30,13 +32,9 @@ namespace XORGanizer
         private void okButton_Click(object sender, EventArgs e)
         {
             if(!EditingMod)
-                PrimaryEventSetting(ref NewEvent, ref TimeForNewDay);
+                PrimaryEventSetting(ref newEvent, ref timeForNewDay);
             else
-                PrimaryEventSetting(ref NewEvent, ref TimeForNewDay);
-
-            //ДАЛЬШЕ ПОПРОБОВАТЬ ЗАПИЛИТЬ ТАКУЮ КОНСТРУКЦИЮ
-            //((MainForm)sender).listOfDays;
-            //PrimaryEventSetting(ref ((MainForm)sender).NewEvent, ref ((MainForm)sender).TimeForNewDay);
+                PrimaryEventSetting(ref newEvent, ref timeForNewDay);
         }
 
         private void PrimaryEventSetting(ref Event addedEvent, ref DateTime timeForNewDay)
@@ -90,6 +88,16 @@ namespace XORGanizer
                 else if (EditedEvent.Importance == EventImportance.High)
                     highImportanceRadioButton.Select();
             }
+        }
+
+        private void beginningDateTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            endingDateTimePicker.Value = new DateTime(beginningDateTimePicker.Value.Year, beginningDateTimePicker.Value.Month, beginningDateTimePicker.Value.Day, endingDateTimePicker.Value.Hour, endingDateTimePicker.Value.Minute, 0);
+        }
+
+        private void endingDateTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            beginningDateTimePicker.Value = new DateTime(endingDateTimePicker.Value.Year, endingDateTimePicker.Value.Month, endingDateTimePicker.Value.Day, beginningDateTimePicker.Value.Hour, beginningDateTimePicker.Value.Minute, 0);
         }
     }
 }
