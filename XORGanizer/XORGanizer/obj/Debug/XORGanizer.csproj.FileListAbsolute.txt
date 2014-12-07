@@ -52,4 +52,3 @@ E:\GitHub\test polygon\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.Mai
 E:\GitHub\test polygon\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.Properties.Resources.resources
 E:\GitHub\test polygon\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.csproj.GenerateResource.Cache
 E:\GitHub\test polygon\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.FileBrowse.resources
-E:\GitHub\XORGanizer\XORGanizer\XORGanizer\obj\Debug\XORGanizer.FileBrowse.resources

@@ -24,7 +24,7 @@ namespace XORGanizer
             InitializeComponent();
         }
 
-        public void EventsLoadMetod( ref StreamReader reader) 
+        public void EventsLoadMetod(ref StreamReader reader)
         {
             string line;
             while ((line = reader.ReadLine()) != null)
@@ -82,16 +82,29 @@ namespace XORGanizer
                     listOfDays[timeForNewDay].AddEvent(addedEvent);
                 }
             }
-            reader.Close();          
+            reader.Close();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+       //     System.Windows.Forms.ContextMenu contextMenu1;
+       //     contextMenu1 = new System.Windows.Forms.ContextMenu();
+       //     System.Windows.Forms.MenuItem menuItem1;
+       //     menuItem1 = new System.Windows.Forms.MenuItem();
+
+       //     contextMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] { menuItem1 });
+       //     menuItem1.Index = 0;
+       //     menuItem1.Text = "Удалить";
+       ////     menuItem1.Click = eventsListView_MouseUp(sender, new MouseEventArgs(e));
+       //     eventsListView.ContextMenu = contextMenu1;
+
+
+
 
             if (File.Exists(listOfEventsPath + "\\List.txt"))
             {
                 StreamReader reader = new StreamReader(listOfEventsPath + "\\List.txt");
-               EventsLoadMetod(ref reader);
+                EventsLoadMetod(ref reader);
             }
             else
             {
@@ -99,15 +112,15 @@ namespace XORGanizer
                 FS2.Close();
             }
 
-                eventsListView.Columns.Add("Описание", 120);
-                eventsListView.Columns.Add("Важность", 80);
-                eventsListView.Columns.Add("Начало", 120);
-                eventsListView.Columns.Add("Окончание", 120);
+            eventsListView.Columns.Add("Описание", 120);
+            eventsListView.Columns.Add("Важность", 80);
+            eventsListView.Columns.Add("Начало", 120);
+            eventsListView.Columns.Add("Окончание", 120);
 
-                DateRangeEventArgs args = new DateRangeEventArgs(
-                        new DateTime(int.Parse(DateTime.Now.Year.ToString()), int.Parse(DateTime.Now.Month.ToString()),
-                            int.Parse(DateTime.Now.Day.ToString())), DateTime.Now);
-                monthCalendar_Click(null, args);
+            DateRangeEventArgs args = new DateRangeEventArgs(
+                new DateTime(int.Parse(DateTime.Now.Year.ToString()), int.Parse(DateTime.Now.Month.ToString()),
+                    int.Parse(DateTime.Now.Day.ToString())), DateTime.Now);
+            monthCalendar_Click(null, args);
         }
 
         private void addEventButton_Click(object sender, EventArgs e)
@@ -127,7 +140,8 @@ namespace XORGanizer
                     }
                     else
                     {
-                        listOfDays.AddDay(eventConfiguringForm.TimeForNewDay, new Day(eventConfiguringForm.TimeForNewDay));
+                        listOfDays.AddDay(eventConfiguringForm.TimeForNewDay,
+                            new Day(eventConfiguringForm.TimeForNewDay));
                         listOfDays[eventConfiguringForm.TimeForNewDay].AddEvent(eventConfiguringForm.NewEvent);
                         MessageBox.Show("Событие успешно добавлено");
                     }
@@ -162,7 +176,9 @@ namespace XORGanizer
             {
                 foreach (KeyValuePair<DateTime, Event> selectedDayEvent in listOfDays[e.Start])
                 {
-                    importance = selectedDayEvent.Value.Importance == EventImportance.Middle ? "Средняя" : (selectedDayEvent.Value.Importance == EventImportance.Low ? "Низкая" : "Высокая");
+                    importance = selectedDayEvent.Value.Importance == EventImportance.Middle
+                        ? "Средняя"
+                        : (selectedDayEvent.Value.Importance == EventImportance.Low ? "Низкая" : "Высокая");
 
                     item = new ListViewItem(selectedDayEvent.Value.Description.ToString());
                     item.SubItems.Add(importance);
@@ -189,7 +205,7 @@ namespace XORGanizer
                     WR.Write(evnt.Value.Importance + "|");
                     WR.Write(evnt.Value.Starting + "|");
                     WR.Write(evnt.Value.Ending + "|");
-
+                    
                     WR.WriteLine();
                 }
             }
@@ -197,22 +213,29 @@ namespace XORGanizer
             WR.Close();
             FS.Close();
         }
+
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-           StreamWritingBeforeClose();
+            StreamWritingBeforeClose();
         }
 
         private void eventsListView_DoubleClick(object sender, MouseEventArgs e)
         {
             ListViewItem selectedItem = eventsListView.SelectedItems[0];
             string description = selectedItem.SubItems[0].Text;
-            EventImportance importance = selectedItem.SubItems[1].Text == "Средняя" ? EventImportance.Middle : selectedItem.SubItems[1].Text == "Низкая" ? EventImportance.Low : EventImportance.High;
+            EventImportance importance = selectedItem.SubItems[1].Text == "Средняя"
+                ? EventImportance.Middle
+                : selectedItem.SubItems[1].Text == "Низкая" ? EventImportance.Low : EventImportance.High;
 
             DateTime timeOfEditedEvent = monthCalendar.SelectionStart;
-            int[] beginningHourMinute = selectedItem.SubItems[2].Text.Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
-            int[] endingHourMinute = selectedItem.SubItems[3].Text.Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
+            int[] beginningHourMinute =
+                selectedItem.SubItems[2].Text.Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
+            int[] endingHourMinute =
+                selectedItem.SubItems[3].Text.Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
 
-            Event editedEvent = new Event(timeOfEditedEvent.Year, timeOfEditedEvent.Month, timeOfEditedEvent.Day, beginningHourMinute[0], beginningHourMinute[1], timeOfEditedEvent.Year, timeOfEditedEvent.Month, timeOfEditedEvent.Day, endingHourMinute[0], endingHourMinute[1], importance, description);
+            Event editedEvent = new Event(timeOfEditedEvent.Year, timeOfEditedEvent.Month, timeOfEditedEvent.Day,
+                beginningHourMinute[0], beginningHourMinute[1], timeOfEditedEvent.Year, timeOfEditedEvent.Month,
+                timeOfEditedEvent.Day, endingHourMinute[0], endingHourMinute[1], importance, description);
 
             EventConfiguringForm eventConfiguringForm = new EventConfiguringForm();
             eventConfiguringForm.EditedEvent = editedEvent;
@@ -232,7 +255,8 @@ namespace XORGanizer
                     }
                     else
                     {
-                        listOfDays.AddDay(eventConfiguringForm.TimeForNewDay, new Day(eventConfiguringForm.TimeForNewDay));
+                        listOfDays.AddDay(eventConfiguringForm.TimeForNewDay,
+                            new Day(eventConfiguringForm.TimeForNewDay));
                         listOfDays[timeOfEditedEvent].DeleteEvent(eventConfiguringForm.EditedEvent);
                         listOfDays[eventConfiguringForm.TimeForNewDay].AddEvent(eventConfiguringForm.NewEvent);
                         MessageBox.Show("Событие успешно отредактировано");
@@ -259,32 +283,86 @@ namespace XORGanizer
 
         private void добавитьСобытияИзФайлToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           OpenFileDialog OpenFileDialog = new OpenFileDialog();
+            OpenFileDialog OpenFileDialog = new OpenFileDialog();
             OpenFileDialog.Filter = "Файлы txt|*.txt";
 
 
-           if (OpenFileDialog.ShowDialog() == DialogResult.OK)
-           {
+            if (OpenFileDialog.ShowDialog() == DialogResult.OK)
+            {
 
-           
-             StreamReader reader = new StreamReader(OpenFileDialog.OpenFile());
 
-               EventsLoadMetod(ref reader);
-           
-          }
-    
+                StreamReader reader = new StreamReader(OpenFileDialog.OpenFile());
+
+                EventsLoadMetod(ref reader);
+
+            }
+
             DateRangeEventArgs args =
                 new DateRangeEventArgs(
                     new DateTime(int.Parse(DateTime.Now.Year.ToString()), int.Parse(DateTime.Now.Month.ToString()),
                         int.Parse(DateTime.Now.Day.ToString())), DateTime.Now);
             monthCalendar_Click(null, args);
-         
+
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StreamWritingBeforeClose();
             this.Close();
-        }        
+        }
+
+        private void eventsListView_MouseUp(object sender, MouseEventArgs e)
+        {
+
+            if (e.Button == MouseButtons.Right)
+            {
+
+                foreach (KeyValuePair<DateTime, Day> day in listOfDays)
+                {
+                    foreach (KeyValuePair<DateTime, Event> evnt in day.Value)
+                    {
+                    
+                    }
+                }
+
+
+                //while (eventsListView.SelectedItems.Count > 0)
+                //{
+                //    eventsListView.Items.Remove(eventsListView.SelectedItems[0]);
+
+                //}
+            }
+
+            
+
+            //foreach (ListViewItem currentItem in eventsListView.SelectedItems)
+            //{
+            //    eventsListView.Items.Remove(currentItem);
+            //    foreach (KeyValuePair<DateTime, Event> listOfDay in listOfDays)
+            //    {
+
+            //    }
+
+            //}
+            //while (eventsListView.SelectedItems.Count > 0)
+            //{
+            //    eventsListView.Items.Remove(eventsListView.SelectedItems[0]);
+
+            //    foreach (KeyValuePair<DateTime, Day> day in listOfDays)
+            //    {
+            //        foreach (KeyValuePair<DateTime, Event> evnt in day.Value)
+            //        {
+                       
+
+            //        }
+            //    }
+            //}
+
+
+
+
+        }
+
+
     }
 }
