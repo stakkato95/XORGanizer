@@ -314,23 +314,27 @@ namespace XORGanizer
         private void eventsListView_MouseUp(object sender, MouseEventArgs e)
         {
 
+            
+
             if (e.Button == MouseButtons.Right)
             {
-
+              
                 foreach (KeyValuePair<DateTime, Day> day in listOfDays)
                 {
                     foreach (KeyValuePair<DateTime, Event> evnt in day.Value)
                     {
+
                     
+
                     }
                 }
 
+                
+                while (eventsListView.SelectedItems.Count > 0)
+                {
+                    eventsListView.Items.Remove(eventsListView.SelectedItems[0]);
 
-                //while (eventsListView.SelectedItems.Count > 0)
-                //{
-                //    eventsListView.Items.Remove(eventsListView.SelectedItems[0]);
-
-                //}
+                }
             }
 
             
@@ -343,20 +347,8 @@ namespace XORGanizer
 
             //    }
 
-            //}
-            //while (eventsListView.SelectedItems.Count > 0)
-            //{
-            //    eventsListView.Items.Remove(eventsListView.SelectedItems[0]);
-
-            //    foreach (KeyValuePair<DateTime, Day> day in listOfDays)
-            //    {
-            //        foreach (KeyValuePair<DateTime, Event> evnt in day.Value)
-            //        {
-                       
-
-            //        }
-            //    }
-            //}
+            
+         
 
 
 
