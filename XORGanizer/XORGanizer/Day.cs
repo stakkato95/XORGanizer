@@ -41,6 +41,10 @@ namespace XORGanizer
         {
             listOfEvents.Remove(someEvent.Starting);
         }
+        public void DeleteEvent(DateTime someEventStarting)
+        {
+            listOfEvents.Remove(someEventStarting);
+        }
 
         public IEnumerator GetEnumerator()
         {

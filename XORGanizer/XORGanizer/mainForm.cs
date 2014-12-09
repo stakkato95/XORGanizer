@@ -87,20 +87,6 @@ namespace XORGanizer
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-       //     System.Windows.Forms.ContextMenu contextMenu1;
-       //     contextMenu1 = new System.Windows.Forms.ContextMenu();
-       //     System.Windows.Forms.MenuItem menuItem1;
-       //     menuItem1 = new System.Windows.Forms.MenuItem();
-
-       //     contextMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] { menuItem1 });
-       //     menuItem1.Index = 0;
-       //     menuItem1.Text = "Удалить";
-       ////     menuItem1.Click = eventsListView_MouseUp(sender, new MouseEventArgs(e));
-       //     eventsListView.ContextMenu = contextMenu1;
-
-
-
-
             if (File.Exists(listOfEventsPath + "\\List.txt"))
             {
                 StreamReader reader = new StreamReader(listOfEventsPath + "\\List.txt");
@@ -116,6 +102,15 @@ namespace XORGanizer
             eventsListView.Columns.Add("Важность", 80);
             eventsListView.Columns.Add("Начало", 120);
             eventsListView.Columns.Add("Окончание", 120);
+
+            System.Windows.Forms.ContextMenu listViewContextMenu = new System.Windows.Forms.ContextMenu();
+            System.Windows.Forms.MenuItem menuItem = new System.Windows.Forms.MenuItem();
+
+            listViewContextMenu.MenuItems.Add(menuItem);
+            menuItem.Index = 0;
+            menuItem.Text = "Удалить";
+            menuItem.Click += eventsListView_MouseUp;
+            eventsListView.ContextMenu = listViewContextMenu;
 
             DateRangeEventArgs args = new DateRangeEventArgs(
                 new DateTime(int.Parse(DateTime.Now.Year.ToString()), int.Parse(DateTime.Now.Month.ToString()),
@@ -205,7 +200,7 @@ namespace XORGanizer
                     WR.Write(evnt.Value.Importance + "|");
                     WR.Write(evnt.Value.Starting + "|");
                     WR.Write(evnt.Value.Ending + "|");
-                    
+
                     WR.WriteLine();
                 }
             }
@@ -311,50 +306,20 @@ namespace XORGanizer
             this.Close();
         }
 
-        private void eventsListView_MouseUp(object sender, MouseEventArgs e)
+        private void eventsListView_MouseUp(object sender, EventArgs e)
         {
-
-            
-
-            if (e.Button == MouseButtons.Right)
+            while (eventsListView.SelectedItems.Count > 0)
             {
-              
-                foreach (KeyValuePair<DateTime, Day> day in listOfDays)
-                {
-                    foreach (KeyValuePair<DateTime, Event> evnt in day.Value)
-                    {
+                int[] deletedEventYearMonthDay = monthCalendar.SelectionStart.ToString().Substring(0, 10).Split('.').OfType<string>().Select(str => int.Parse(str)).ToArray();
+                int[] deletedEventHourMinute = eventsListView.SelectedItems[0].SubItems[2].ToString().Substring(18, 5).Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
+                DateTime deletedEventDate = new DateTime(deletedEventYearMonthDay[2], deletedEventYearMonthDay[1], deletedEventYearMonthDay[0], deletedEventHourMinute[0], deletedEventHourMinute[1], 0);
 
-                    
+                DateTime dayOfDeletedEvent = new DateTime(deletedEventYearMonthDay[2], deletedEventYearMonthDay[1], deletedEventYearMonthDay[0], 0, 0, 0);
+                listOfDays[dayOfDeletedEvent].DeleteEvent(deletedEventDate);
 
-                    }
-                }
-
-                
-                while (eventsListView.SelectedItems.Count > 0)
-                {
-                    eventsListView.Items.Remove(eventsListView.SelectedItems[0]);
-
-                }
+                eventsListView.Items.Remove(eventsListView.SelectedItems[0]);
             }
-
-            
-
-            //foreach (ListViewItem currentItem in eventsListView.SelectedItems)
-            //{
-            //    eventsListView.Items.Remove(currentItem);
-            //    foreach (KeyValuePair<DateTime, Event> listOfDay in listOfDays)
-            //    {
-
-            //    }
-
-            
-         
-
-
-
-
         }
-
 
     }
 }

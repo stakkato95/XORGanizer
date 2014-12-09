@@ -13,15 +13,15 @@ namespace XORGanizer
 {
     public partial class EventConfiguringForm : Form
     {
-        public Event EditedEvent { get { return editedEvent; } set { editedEvent = value; } }
+        internal Event EditedEvent { get { return editedEvent; } set { editedEvent = value; } }
         private Event editedEvent;
-        public Event NewEvent { get { return newEvent; } private set { newEvent = value; } }
+        internal Event NewEvent { get { return newEvent; } private set { newEvent = value; } }
         private Event newEvent;
-        public bool EditingMod { get { return editingMod; } set { editingMod = value; } }
+        internal bool EditingMod { get { return editingMod; } set { editingMod = value; } }
         private bool editingMod;
-        public DateTime TimeForNewDay { get { return timeForNewDay; } private set { timeForNewDay = value; } }
+        internal DateTime TimeForNewDay { get { return timeForNewDay; } private set { timeForNewDay = value; } }
         private DateTime timeForNewDay;
-        public DateTime TimeForEditedEvent { get { return timeForEditedEvent; } private set { timeForEditedEvent = value; } }
+        internal DateTime TimeForEditedEvent { get { return timeForEditedEvent; } private set { timeForEditedEvent = value; } }
         private DateTime timeForEditedEvent;
 
         public EventConfiguringForm()
