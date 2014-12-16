@@ -15,13 +15,30 @@ namespace XORGanizer
 {
     public partial class MainForm : Form
     {
-        public Calendar listOfDays = new Calendar();
+        private Calendar listOfDays;
 
         private static string listOfEventsPath = Environment.CurrentDirectory;
 
         public MainForm()
         {
             InitializeComponent();
+
+            //initializing custom components
+            eventsListView.Columns.Add("Описание", 120);
+            eventsListView.Columns.Add("Важность", 80);
+            eventsListView.Columns.Add("Начало", 120);
+            eventsListView.Columns.Add("Окончание", 120);
+
+            System.Windows.Forms.ContextMenu listViewContextMenu = new System.Windows.Forms.ContextMenu();
+            System.Windows.Forms.MenuItem menuItem = new System.Windows.Forms.MenuItem();
+
+            listViewContextMenu.MenuItems.Add(menuItem);
+            menuItem.Index = 0;
+            menuItem.Text = "Удалить";
+            menuItem.Click += eventsListView_MouseUp;
+            eventsListView.ContextMenu = listViewContextMenu;
+
+            Disposed += MainForm_Disposed;
         }
 
         public void EventsLoadMetod(ref StreamReader reader)
@@ -31,46 +48,17 @@ namespace XORGanizer
             {
                 string[] values = line.Split('|');
 
-                //starting parameters for the event
-                string[] fullStartingDate = values[3].Split(' ');
-                string[] startingDayMonthYear = fullStartingDate[0].Split('.');
-                int[] parsedStartingDayMonthYear =
-                    startingDayMonthYear.OfType<string>().Select(str => int.Parse(str)).ToArray();
-
-                string[] startingHourMinuteSecond = fullStartingDate[1].Split(':');
-                int[] parsedStartingHourMinute =
-                    startingHourMinuteSecond.OfType<string>().Select(str => int.Parse(str)).ToArray();
-
-                //ending parameters for the event
-                string[] fullEndingDate = values[4].Split(' ');
-                string[] enfdingDayMonthYear = fullEndingDate[0].Split('.');
-                int[] parsedEndingDayMonthYear =
-                    enfdingDayMonthYear.OfType<string>().Select(str => int.Parse(str)).ToArray();
-
-                string[] endingHourMinuteSecond = fullEndingDate[1].Split(':');
-                int[] parsedEndingHourMinute =
-                    endingHourMinuteSecond.OfType<string>().Select(str => int.Parse(str)).ToArray();
+                //parsing ticks string to long
+                long startTime = long.Parse(values[3]);
+                long endTime = long.Parse(values[4]);
 
                 //importance parameter for the event
                 EventImportance levelOfImportance =
                     (EventImportance)Enum.Parse(typeof(EventImportance), values[2], true);
 
-                Event addedEvent = new Event(parsedStartingDayMonthYear[2],
-                    parsedStartingDayMonthYear[1],
-                    parsedStartingDayMonthYear[0],
-                    parsedStartingHourMinute[0],
-                    parsedStartingHourMinute[1],
-                    parsedEndingDayMonthYear[2],
-                    parsedEndingDayMonthYear[1],
-                    parsedEndingDayMonthYear[0],
-                    parsedEndingHourMinute[0],
-                    parsedEndingHourMinute[1],
-                    levelOfImportance,
-                    values[1]);
+                Event addedEvent = new Event(startTime, endTime, levelOfImportance, values[1]);
 
-                DateTime timeForNewDay = new DateTime(parsedStartingDayMonthYear[2],
-                    parsedStartingDayMonthYear[1],
-                    parsedStartingDayMonthYear[0]);
+                DateTime timeForNewDay = new DateTime(addedEvent.Starting.Year, addedEvent.Starting.Month, addedEvent.Starting.Day);
 
                 if (listOfDays.ContainsKey(timeForNewDay))
                 {
@@ -87,30 +75,14 @@ namespace XORGanizer
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            listOfDays = new Calendar();
+
             if (File.Exists(listOfEventsPath + "\\List.txt"))
             {
-                StreamReader reader = new StreamReader(listOfEventsPath + "\\List.txt");
-                EventsLoadMetod(ref reader);
+                FileStream FS = new FileStream(MainForm.listOfEventsPath + "\\List.txt", FileMode.Open, FileAccess.Read, FileShare.None);
+                StreamReader SR = new StreamReader(FS);
+                EventsLoadMetod(ref SR);
             }
-            else
-            {
-                FileStream FS2 = new FileStream(listOfEventsPath + "\\List.txt", FileMode.Create);
-                FS2.Close();
-            }
-
-            eventsListView.Columns.Add("Описание", 120);
-            eventsListView.Columns.Add("Важность", 80);
-            eventsListView.Columns.Add("Начало", 120);
-            eventsListView.Columns.Add("Окончание", 120);
-
-            System.Windows.Forms.ContextMenu listViewContextMenu = new System.Windows.Forms.ContextMenu();
-            System.Windows.Forms.MenuItem menuItem = new System.Windows.Forms.MenuItem();
-
-            listViewContextMenu.MenuItems.Add(menuItem);
-            menuItem.Index = 0;
-            menuItem.Text = "Удалить";
-            menuItem.Click += eventsListView_MouseUp;
-            eventsListView.ContextMenu = listViewContextMenu;
 
             DateRangeEventArgs args = new DateRangeEventArgs(
                 new DateTime(int.Parse(DateTime.Now.Year.ToString()), int.Parse(DateTime.Now.Month.ToString()),
@@ -121,8 +93,8 @@ namespace XORGanizer
         private void addEventButton_Click(object sender, EventArgs e)
         {
             EventConfiguringForm eventConfiguringForm = new EventConfiguringForm();
-            eventConfiguringForm.ShowDialog();
-            DialogResult dialogResult = eventConfiguringForm.DialogResult;
+
+            DialogResult dialogResult = eventConfiguringForm.ShowDialog(); //eventConfiguringForm.DialogResult;
 
             if (dialogResult == System.Windows.Forms.DialogResult.OK)
             {
@@ -188,7 +160,7 @@ namespace XORGanizer
         {
             File.Delete(MainForm.listOfEventsPath + "\\List.txt");
 
-            FileStream FS = new FileStream(MainForm.listOfEventsPath + "\\List.txt", FileMode.Create);
+            FileStream FS = new FileStream(MainForm.listOfEventsPath + "\\List.txt", FileMode.Create, FileAccess.Write, FileShare.None);
             StreamWriter WR = new StreamWriter(FS);
 
             foreach (KeyValuePair<DateTime, Day> day in listOfDays)
@@ -198,8 +170,8 @@ namespace XORGanizer
                     WR.Write("" + "|");
                     WR.Write(evnt.Value.Description + "|");
                     WR.Write(evnt.Value.Importance + "|");
-                    WR.Write(evnt.Value.Starting + "|");
-                    WR.Write(evnt.Value.Ending + "|");
+                    WR.Write(evnt.Value.Starting.Ticks + "|");
+                    WR.Write(evnt.Value.Ending.Ticks + "|");
 
                     WR.WriteLine();
                 }
@@ -209,10 +181,6 @@ namespace XORGanizer
             FS.Close();
         }
 
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            StreamWritingBeforeClose();
-        }
 
         private void eventsListView_DoubleClick(object sender, MouseEventArgs e)
         {
@@ -319,6 +287,11 @@ namespace XORGanizer
 
                 eventsListView.Items.Remove(eventsListView.SelectedItems[0]);
             }
+        }
+
+        private void MainForm_Disposed(object sender, EventArgs e)
+        {
+            StreamWritingBeforeClose();
         }
 
     }

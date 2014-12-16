@@ -21,5 +21,12 @@ namespace XORGanizer
             Description = String.IsNullOrEmpty(description) ? "Описание отсутствует" : description;
             Importance = importance;
         }
+        public Event(long startTicks, long endTicks, EventImportance importance, string description)
+        {
+            Starting = new DateTime(startTicks);
+            Ending = new DateTime(endTicks);
+            Description = String.IsNullOrEmpty(description) ? "Описание отсутствует" : description;
+            Importance = importance;
+        }
     }
 }
