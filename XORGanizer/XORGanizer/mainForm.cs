@@ -29,14 +29,14 @@ namespace XORGanizer
             eventsListView.Columns.Add("Начало", 120);
             eventsListView.Columns.Add("Окончание", 120);
 
-            System.Windows.Forms.ContextMenu listViewContextMenu = new System.Windows.Forms.ContextMenu();
-            System.Windows.Forms.MenuItem menuItem = new System.Windows.Forms.MenuItem();
+            //System.Windows.Forms.ContextMenu listViewContextMenu = new System.Windows.Forms.ContextMenu();
+            //System.Windows.Forms.MenuItem menuItem = new System.Windows.Forms.MenuItem();
 
-            listViewContextMenu.MenuItems.Add(menuItem);
-            menuItem.Index = 0;
-            menuItem.Text = "Удалить";
-            menuItem.Click += eventsListView_MouseUp;
-            eventsListView.ContextMenu = listViewContextMenu;
+            //listViewContextMenu.MenuItems.Add(menuItem);
+            //menuItem.Index = 0;
+            //menuItem.Text = "Удалить";
+            //menuItem.Click += eventsListView_MouseUp;
+            //eventsListView.ContextMenu = listViewContextMenu;
 
             Disposed += MainForm_Disposed;
         }
@@ -46,6 +46,7 @@ namespace XORGanizer
             string line;
             while ((line = reader.ReadLine()) != null)
             {
+              
                 string[] values = line.Split('|');
 
                 //parsing ticks string to long
@@ -90,11 +91,29 @@ namespace XORGanizer
             monthCalendar_Click(null, args);
         }
 
-        private void addEventButton_Click(object sender, EventArgs e)
+        private void addEventMetod()
         {
             EventConfiguringForm eventConfiguringForm = new EventConfiguringForm();
 
             DialogResult dialogResult = eventConfiguringForm.ShowDialog(); //eventConfiguringForm.DialogResult;
+
+
+            //foreach (KeyValuePair<DateTime, Day> day in listOfDays)
+            //{
+            //    foreach (KeyValuePair<DateTime, Event> evnt in day.Value)
+            //    {
+            //        if (
+            //           ( (beginningDateTimePicker.Value.Hour >= evnt.Value.Starting.Hour || beginningDateTimePicker.Value.Minute >= evnt.Value.Starting.Minute) &&
+            //            (endingDateTimePicker.Value.Hour <= evnt.Value.Ending.Hour ))||
+            //            (beginningDateTimePicker.Value.Hour <= evnt.Value.Starting.Hour && endingDateTimePicker.Value.Hour <= evnt.Value.Ending.Hour)
+            //            )
+            //        {
+            //         MessageBox.Show("Событие входит в событие");
+            //          return;
+            //        }
+            //    }
+            //}
+
 
             if (dialogResult == System.Windows.Forms.DialogResult.OK)
             {
@@ -130,6 +149,11 @@ namespace XORGanizer
                         "Невозможно добавить событие", MessageBoxButtons.OK);
                 }
             }
+        }
+
+        private void addEventButton_Click(object sender, EventArgs e)
+        {
+           addEventMetod();
         }
 
         public void monthCalendar_Click(object sender, DateRangeEventArgs e)
@@ -181,8 +205,7 @@ namespace XORGanizer
             FS.Close();
         }
 
-
-        private void eventsListView_DoubleClick(object sender, MouseEventArgs e)
+        private void editEventsMetod()
         {
             ListViewItem selectedItem = eventsListView.SelectedItems[0];
             string description = selectedItem.SubItems[0].Text;
@@ -244,6 +267,11 @@ namespace XORGanizer
             }
         }
 
+        private void eventsListView_DoubleClick(object sender, MouseEventArgs e)
+        {
+            editEventsMetod();
+        }
+
         private void добавитьСобытияИзФайлToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog OpenFileDialog = new OpenFileDialog();
@@ -252,12 +280,20 @@ namespace XORGanizer
 
             if (OpenFileDialog.ShowDialog() == DialogResult.OK)
             {
+                FileStream FS = new FileStream(OpenFileDialog.FileName, FileMode.Open, FileAccess.Read, FileShare.None);
+                StreamReader SR = new StreamReader(FS);
+                if ((SR.ReadLine()) != null)
+                {
+                        FS.Close();
+                SR.Close();
+                    StreamReader reader = new StreamReader(OpenFileDialog.OpenFile());
 
-
-                StreamReader reader = new StreamReader(OpenFileDialog.OpenFile());
-
-                EventsLoadMetod(ref reader);
-
+                    EventsLoadMetod(ref reader);
+                }
+                else
+                {
+                   MessageBox.Show("Файл пуст"); 
+                }
             }
 
             DateRangeEventArgs args =
@@ -274,12 +310,13 @@ namespace XORGanizer
             this.Close();
         }
 
-        private void eventsListView_MouseUp(object sender, EventArgs e)
+        private void deteleEventMetod()
         {
             while (eventsListView.SelectedItems.Count > 0)
             {
                 int[] deletedEventYearMonthDay = monthCalendar.SelectionStart.ToString().Substring(0, 10).Split('.').OfType<string>().Select(str => int.Parse(str)).ToArray();
                 int[] deletedEventHourMinute = eventsListView.SelectedItems[0].SubItems[2].ToString().Substring(18, 5).Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
+               
                 DateTime deletedEventDate = new DateTime(deletedEventYearMonthDay[2], deletedEventYearMonthDay[1], deletedEventYearMonthDay[0], deletedEventHourMinute[0], deletedEventHourMinute[1], 0);
 
                 DateTime dayOfDeletedEvent = new DateTime(deletedEventYearMonthDay[2], deletedEventYearMonthDay[1], deletedEventYearMonthDay[0], 0, 0, 0);
@@ -289,10 +326,84 @@ namespace XORGanizer
             }
         }
 
+        private void eventsListView_MouseUp(object sender, EventArgs e)
+        {
+            deteleEventMetod();
+        }
+
         private void MainForm_Disposed(object sender, EventArgs e)
         {
             StreamWritingBeforeClose();
         }
 
+
+
+        //  events func
+        private void deleteEventButton_Click(object sender, EventArgs e)
+        {
+            deteleEventMetod();
+        }
+
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            deteleEventMetod();
+        }
+
+        private void editEventButton_Click(object sender, EventArgs e)
+        {
+            editEventsMetod();
+        }
+
+        private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            editEventsMetod();
+        }
+
+        private void completeEventButton_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in eventsListView.Items)
+            {
+                    item.BackColor = Color.LightGreen;
+            }
+        }
+
+        private void eventsListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            deleteEventButton.Enabled = true;
+            удалитьToolStripMenuItem.Enabled = true;
+            изменитьToolStripMenuItem.Enabled = true;
+            editEventButton.Enabled = true;
+            completeEventButton.Enabled = true;
+
+            if (eventsListView.SelectedItems.Count == 0)
+            {
+                deleteEventButton.Enabled = false;
+                удалитьToolStripMenuItem.Enabled = false;
+                изменитьToolStripMenuItem.Enabled = false;
+                editEventButton.Enabled = false;
+                completeEventButton.Enabled = false;
+            }
+        }
+
+        private void добавитьНовоеСобытиеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addEventMetod();
+        }
+
+       
+
+        private void delKeyPress(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == (char)Keys.Delete)
+            {
+                e.Handled = true;
+                MessageBox.Show("DELETE Pressed");
+                deteleEventMetod();
+            }
+        }
+        
+        // end events func
+
+       
     }
 }

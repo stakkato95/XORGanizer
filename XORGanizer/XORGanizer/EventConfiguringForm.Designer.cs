@@ -182,6 +182,7 @@
             this.Controls.Add(this.beginningDateTimePicker);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "EventConfiguringForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Настройка события";
             this.Load += new System.EventHandler(this.EventConfiguringForm_Load);
             this.importanceGroupBox.ResumeLayout(false);
