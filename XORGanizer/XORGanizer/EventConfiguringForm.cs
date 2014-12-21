@@ -97,7 +97,7 @@ namespace XORGanizer
 
         private void endingDateTimePicker_ValueChanged(object sender, EventArgs e)
         {
-            beginningDateTimePicker.Value = new DateTime(endingDateTimePicker.Value.Year, endingDateTimePicker.Value.Month, endingDateTimePicker.Value.Day, beginningDateTimePicker.Value.Hour, beginningDateTimePicker.Value.Minute, 0);
+            beginningDateTimePicker.Value = new DateTime(endingDateTimePicker.Value.Year, endingDateTimePicker.Value.Month, endingDateTimePicker.Value.Day , beginningDateTimePicker.Value.Hour, beginningDateTimePicker.Value.Minute, 0);
         }
     }
 }
