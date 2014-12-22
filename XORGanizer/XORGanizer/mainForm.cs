@@ -19,8 +19,6 @@ namespace XORGanizer
 
 
         private Calendar listOfDays;
-
-
         private static string listOfEventsPath = Environment.CurrentDirectory;
 
         public MainForm()
@@ -32,6 +30,7 @@ namespace XORGanizer
             eventsListView.Columns.Add("Важность", 80);
             eventsListView.Columns.Add("Начало", 120);
             eventsListView.Columns.Add("Окончание", 120);
+            Disposed += MainForm_Disposed;
         }
 
         public void EventsLoadMetod(ref StreamReader reader)
@@ -87,27 +86,9 @@ namespace XORGanizer
         private void addEventMetod()
         {
 
-            EventConfiguringForm eventConfiguringForm = new EventConfiguringForm();
+            EventConfiguringForm eventConfiguringForm = new EventConfiguringForm() { SetExprctedDay = monthCalendar.SelectionStart };
 
-            DialogResult dialogResult = eventConfiguringForm.ShowDialog(); //eventConfiguringForm.DialogResult;
-
-
-            //foreach (KeyValuePair<DateTime, Day> day in listOfDays)
-            //{
-            //    foreach (KeyValuePair<DateTime, Event> evnt in day.Value)
-            //    {
-            //        if (
-            //           ( (beginningDateTimePicker.Value.Hour >= evnt.Value.Starting.Hour || beginningDateTimePicker.Value.Minute >= evnt.Value.Starting.Minute) &&
-            //            (endingDateTimePicker.Value.Hour <= evnt.Value.Ending.Hour ))||
-            //            (beginningDateTimePicker.Value.Hour <= evnt.Value.Starting.Hour && endingDateTimePicker.Value.Hour <= evnt.Value.Ending.Hour)
-            //            )
-            //        {
-            //         MessageBox.Show("Событие входит в событие");
-            //          return;
-            //        }
-            //    }
-            //}
-
+            DialogResult dialogResult = eventConfiguringForm.ShowDialog();
 
             if (dialogResult == DialogResult.OK)
             {
@@ -120,8 +101,7 @@ namespace XORGanizer
                     }
                     else
                     {
-                        listOfDays.AddDay(eventConfiguringForm.TimeForNewDay,
-                            new Day(eventConfiguringForm.TimeForNewDay));
+                        listOfDays.AddDay(eventConfiguringForm.TimeForNewDay, new Day(eventConfiguringForm.TimeForNewDay));
                         listOfDays[eventConfiguringForm.TimeForNewDay].AddEvent(eventConfiguringForm.NewEvent);
                         MessageBox.Show("Событие успешно добавлено");
                     }
@@ -135,8 +115,7 @@ namespace XORGanizer
 
                 catch (Exception)
                 {
-                    MessageBox.Show("Время начала события совпадает со временем начала уже существующего события",
-                        "Невозможно добавить событие", MessageBoxButtons.OK);
+                    MessageBox.Show("Пересечение событий", "Невозможно добавить событие", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
                 }
             }
         }
@@ -286,7 +265,7 @@ namespace XORGanizer
                 }
                 else
                 {
-                    MessageBox.Show("Файл пуст");
+                    MessageBox.Show("Пустой файл", "Нежданчик", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
             }
 
@@ -305,7 +284,7 @@ namespace XORGanizer
         }
 
 
-        //bad delete metod 
+        //delete metod 
         private void deteleEventMetod()
         {
             while (eventsListView.SelectedItems.Count > 0)
@@ -371,7 +350,7 @@ namespace XORGanizer
             menuItem.Text = "Удалить";
             menuItem.Click += eventsListView_MouseUp;
             eventsListView.ContextMenu = listViewContextMenu;
-            Disposed += MainForm_Disposed;
+
 
             menuItem.Enabled = true;
 
@@ -401,13 +380,14 @@ namespace XORGanizer
         {
             if (e.KeyValue == (char)Keys.Delete)
             {
-                e.Handled = true;
-                MessageBox.Show("DELETE Pressed"); // delete this before fina relese
-                deteleEventMetod();
+                DialogResult userChoice = MessageBox.Show("Вы действительно хотите удалить событие?", "Удаление события",MessageBoxButtons.YesNo,MessageBoxIcon.Question,MessageBoxDefaultButton.Button1);
+
+                if (userChoice == System.Windows.Forms.DialogResult.Yes)
+                {
+                    deteleEventMetod(); 
+                }
             }
         }
-
-        // end events func
 
 
     }

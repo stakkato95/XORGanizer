@@ -23,6 +23,7 @@ namespace XORGanizer
         private DateTime timeForNewDay;
         internal DateTime TimeForEditedEvent { get { return timeForEditedEvent; } private set { timeForEditedEvent = value; } }
         private DateTime timeForEditedEvent;
+        internal DateTime SetExprctedDay { set { beginningDateTimePicker.Value = value; endingDateTimePicker.Value = value; } }
 
         public EventConfiguringForm()
         {
@@ -92,12 +93,22 @@ namespace XORGanizer
 
         private void beginningDateTimePicker_ValueChanged(object sender, EventArgs e)
         {
-            endingDateTimePicker.Value = new DateTime(beginningDateTimePicker.Value.Year, beginningDateTimePicker.Value.Month, beginningDateTimePicker.Value.Day, endingDateTimePicker.Value.Hour, endingDateTimePicker.Value.Minute, 0);
+            //doesn't allow to set time of beginning greater than time of ending
+            if (beginningDateTimePicker.Value > endingDateTimePicker.Value)
+            {
+                endingDateTimePicker.Value = new DateTime(beginningDateTimePicker.Value.Year, beginningDateTimePicker.Value.Month, beginningDateTimePicker.Value.Day, beginningDateTimePicker.Value.Hour, beginningDateTimePicker.Value.Minute, 0);
+            }
+
+            
         }
 
         private void endingDateTimePicker_ValueChanged(object sender, EventArgs e)
         {
-            beginningDateTimePicker.Value = new DateTime(endingDateTimePicker.Value.Year, endingDateTimePicker.Value.Month, endingDateTimePicker.Value.Day , beginningDateTimePicker.Value.Hour, beginningDateTimePicker.Value.Minute, 0);
+            //doesn't allow to set time of ending smaller than time of beginning
+            if (endingDateTimePicker.Value < beginningDateTimePicker.Value)
+            {
+                beginningDateTimePicker.Value = new DateTime(endingDateTimePicker.Value.Year, endingDateTimePicker.Value.Month, endingDateTimePicker.Value.Day, endingDateTimePicker.Value.Hour, endingDateTimePicker.Value.Minute, 0);
+            }
         }
     }
 }
