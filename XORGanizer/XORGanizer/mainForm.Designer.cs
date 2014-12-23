@@ -50,7 +50,6 @@
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editEventButton = new System.Windows.Forms.Button();
             this.deleteEventButton = new System.Windows.Forms.Button();
-            this.completeEventButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,7 +72,7 @@
             listViewItem1});
             this.eventsListView.Location = new System.Drawing.Point(194, 34);
             this.eventsListView.Name = "eventsListView";
-            this.eventsListView.Size = new System.Drawing.Size(450, 286);
+            this.eventsListView.Size = new System.Drawing.Size(578, 286);
             this.eventsListView.TabIndex = 5;
             this.eventsListView.UseCompatibleStateImageBehavior = false;
             this.eventsListView.View = System.Windows.Forms.View.Details;
@@ -187,7 +186,7 @@
             this.правкаToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(656, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(784, 24);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -204,7 +203,7 @@
             // 
             this.изменитьToolStripMenuItem.Enabled = false;
             this.изменитьToolStripMenuItem.Name = "изменитьToolStripMenuItem";
-            this.изменитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.изменитьToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.изменитьToolStripMenuItem.Text = "Изменить";
             this.изменитьToolStripMenuItem.Click += new System.EventHandler(this.изменитьToolStripMenuItem_Click);
             // 
@@ -212,7 +211,7 @@
             // 
             this.удалитьToolStripMenuItem.Enabled = false;
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.удалитьToolStripMenuItem.Text = "Удалить";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
             // 
@@ -242,25 +241,11 @@
             this.deleteEventButton.UseVisualStyleBackColor = true;
             this.deleteEventButton.Click += new System.EventHandler(this.deleteEventButton_Click);
             // 
-            // completeEventButton
-            // 
-            this.completeEventButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.completeEventButton.AutoSize = true;
-            this.completeEventButton.Enabled = false;
-            this.completeEventButton.Location = new System.Drawing.Point(18, 297);
-            this.completeEventButton.Name = "completeEventButton";
-            this.completeEventButton.Size = new System.Drawing.Size(164, 23);
-            this.completeEventButton.TabIndex = 10;
-            this.completeEventButton.Text = "Выполнено";
-            this.completeEventButton.UseVisualStyleBackColor = true;
-            this.completeEventButton.Click += new System.EventHandler(this.completeEventButton_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(656, 332);
-            this.Controls.Add(this.completeEventButton);
+            this.ClientSize = new System.Drawing.Size(784, 332);
             this.Controls.Add(this.deleteEventButton);
             this.Controls.Add(this.editEventButton);
             this.Controls.Add(this.addEventButton);
@@ -302,7 +287,6 @@
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
         private System.Windows.Forms.Button editEventButton;
         private System.Windows.Forms.Button deleteEventButton;
-        private System.Windows.Forms.Button completeEventButton;
 
     }
 }

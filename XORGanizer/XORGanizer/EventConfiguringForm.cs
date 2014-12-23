@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace XORGanizer
@@ -25,17 +17,25 @@ namespace XORGanizer
         private DateTime timeForEditedEvent;
         internal DateTime SetExprctedDay { set { beginningDateTimePicker.Value = value; endingDateTimePicker.Value = value; } }
 
-        public EventConfiguringForm()
+        private MainForm MainOwner;
+
+        public EventConfiguringForm(MainForm mainForm)
         {
             InitializeComponent();
+            MainOwner = mainForm;
         }
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            if(!EditingMod)
+            if (!EditingMod)
+            {
                 PrimaryEventSetting(ref newEvent, ref timeForNewDay);
+            }
             else
+            {
                 PrimaryEventSetting(ref newEvent, ref timeForNewDay);
+            }
+            okButton.DialogResult = MainOwner.CheckForIntersection(this) ? DialogResult.OK : DialogResult.None;
         }
 
         private void PrimaryEventSetting(ref Event addedEvent, ref DateTime timeForNewDay)
@@ -43,14 +43,16 @@ namespace XORGanizer
             int intValueOfImportance = 0;
             for (int i = 0; i < importanceGroupBox.Controls.Count; i++)
             {
-                if (((RadioButton)importanceGroupBox.Controls[i]).Checked)
+                if (((RadioButton) importanceGroupBox.Controls[i]).Checked)
                 {
                     intValueOfImportance = i;
                     break;
                 }
             }
 
-            EventImportance levelOfImportance = (EventImportance)Enum.Parse(typeof(EventImportance), intValueOfImportance.ToString(), true);
+
+                EventImportance levelOfImportance =
+                    (EventImportance) Enum.Parse(typeof (EventImportance), intValueOfImportance.ToString(), true);
 
             addedEvent = new Event(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
                 int.Parse(beginningDateTimePicker.Value.Month.ToString()),
@@ -63,11 +65,11 @@ namespace XORGanizer
                 int.Parse(endingDateTimePicker.Value.Hour.ToString()),
                 int.Parse(endingDateTimePicker.Value.Minute.ToString()),
                 levelOfImportance,
-                descriptionTextBox.Text);
-
-            timeForNewDay = new DateTime(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
-                                            int.Parse(beginningDateTimePicker.Value.Month.ToString()),
-                                            int.Parse(beginningDateTimePicker.Value.Day.ToString()));
+                descriptionTextBox.Text, radioButton1.Checked);
+                timeForNewDay = new DateTime(int.Parse(beginningDateTimePicker.Value.Year.ToString()),
+                    int.Parse(beginningDateTimePicker.Value.Month.ToString()),
+                    int.Parse(beginningDateTimePicker.Value.Day.ToString()));
+           
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -110,5 +112,6 @@ namespace XORGanizer
                 beginningDateTimePicker.Value = new DateTime(endingDateTimePicker.Value.Year, endingDateTimePicker.Value.Month, endingDateTimePicker.Value.Day, endingDateTimePicker.Value.Hour, endingDateTimePicker.Value.Minute, 0);
             }
         }
+
     }
 }

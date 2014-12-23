@@ -1,22 +1,27 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace XORGanizer
 {
     public partial class MainForm : Form
     {
-
+        public bool CheckForIntersection(EventConfiguringForm childForm)
+        {
+            try
+            {
+                listOfDays[childForm.TimeForNewDay].AddEvent(childForm.NewEvent);
+            }
+            catch
+            {
+                MessageBox.Show("Пересечение событий", "Невозможно добавить событие", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            return true;
+        }
 
         private Calendar listOfDays;
         private static string listOfEventsPath = Environment.CurrentDirectory;
@@ -30,40 +35,63 @@ namespace XORGanizer
             eventsListView.Columns.Add("Важность", 80);
             eventsListView.Columns.Add("Начало", 120);
             eventsListView.Columns.Add("Окончание", 120);
+            eventsListView.Columns.Add("Выполненность", 120);
             Disposed += MainForm_Disposed;
         }
 
         public void EventsLoadMetod(ref StreamReader reader)
         {
-            string line;
-            while ((line = reader.ReadLine()) != null)
+            try
             {
-
-                string[] values = line.Split('|');
-
-                //parsing ticks string to long
-                long startTime = long.Parse(values[3]);
-                long endTime = long.Parse(values[4]);
-
-                //importance parameter for the event
-                EventImportance levelOfImportance =
-                    (EventImportance)Enum.Parse(typeof(EventImportance), values[2], true);
-
-                Event addedEvent = new Event(startTime, endTime, levelOfImportance, values[1]);
-
-                DateTime timeForNewDay = new DateTime(addedEvent.Starting.Year, addedEvent.Starting.Month, addedEvent.Starting.Day);
-
-                if (listOfDays.ContainsKey(timeForNewDay))
+                string line;
+                while ((line = reader.ReadLine()) != null)
                 {
-                    listOfDays[timeForNewDay].AddEvent(addedEvent);
+
+                    string[] values = line.Split('|');
+
+                    //   parsing ticks string to long
+                    long startTime = long.Parse(values[3]);
+                    long endTime = long.Parse(values[4]);
+
+                    //importance parameter for the event
+                    EventImportance levelOfImportance =
+                        (EventImportance) Enum.Parse(typeof (EventImportance), values[2], true);
+
+
+                    bool completeness = false;
+                    int comp = Convert.ToInt32(values[5]);
+
+                    if (comp == 1)
+                    {
+                        completeness = true;
+                    }
+                    else if (comp == 0)
+                    {
+                        completeness = false;
+                    }
+
+                    Event addedEvent = new Event(startTime, endTime, levelOfImportance, values[1], completeness);
+
+                    DateTime timeForNewDay = new DateTime(addedEvent.Starting.Year, addedEvent.Starting.Month,
+                        addedEvent.Starting.Day);
+
+                    if (listOfDays.ContainsKey(timeForNewDay))
+                    {
+                        listOfDays[timeForNewDay].AddEvent(addedEvent);
+                    }
+                    else
+                    {
+                        listOfDays.AddDay(timeForNewDay, new Day(timeForNewDay));
+                        listOfDays[timeForNewDay].AddEvent(addedEvent);
+                    }
                 }
-                else
-                {
-                    listOfDays.AddDay(timeForNewDay, new Day(timeForNewDay));
-                    listOfDays[timeForNewDay].AddEvent(addedEvent);
-                }
+                reader.Close();
             }
-            reader.Close();
+            catch (Exception)
+            {
+                MessageBox.Show("Несоответствие файла", "Нежданчик", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -86,37 +114,37 @@ namespace XORGanizer
         private void addEventMetod()
         {
 
-            EventConfiguringForm eventConfiguringForm = new EventConfiguringForm() { SetExprctedDay = monthCalendar.SelectionStart };
+            EventConfiguringForm eventConfiguringForm = new EventConfiguringForm(this) { SetExprctedDay = monthCalendar.SelectionStart };
 
             DialogResult dialogResult = eventConfiguringForm.ShowDialog();
 
             if (dialogResult == DialogResult.OK)
             {
-                try
-                {
-                    if (listOfDays.ContainsKey(eventConfiguringForm.TimeForNewDay))
-                    {
-                        listOfDays[eventConfiguringForm.TimeForNewDay].AddEvent(eventConfiguringForm.NewEvent);
+                //try
+                //{
+                //    if (listOfDays.ContainsKey(eventConfiguringForm.TimeForNewDay))
+                //    {
+                //        listOfDays[eventConfiguringForm.TimeForNewDay].AddEvent(eventConfiguringForm.NewEvent);
                         MessageBox.Show("Событие успешно добавлено");
-                    }
-                    else
-                    {
-                        listOfDays.AddDay(eventConfiguringForm.TimeForNewDay, new Day(eventConfiguringForm.TimeForNewDay));
-                        listOfDays[eventConfiguringForm.TimeForNewDay].AddEvent(eventConfiguringForm.NewEvent);
-                        MessageBox.Show("Событие успешно добавлено");
-                    }
+                    //}
+                    //else
+                    //{
+                    //    listOfDays.AddDay(eventConfiguringForm.TimeForNewDay, new Day(eventConfiguringForm.TimeForNewDay));
+                    //    listOfDays[eventConfiguringForm.TimeForNewDay].AddEvent(eventConfiguringForm.NewEvent);
+                    //    MessageBox.Show("Событие успешно добавлено");
+                    //}
 
                     DateRangeEventArgs args = new DateRangeEventArgs(eventConfiguringForm.TimeForNewDay, DateTime.Now);
                     monthCalendar.SelectionStart = eventConfiguringForm.TimeForNewDay;
                     monthCalendar.SelectionEnd = eventConfiguringForm.TimeForNewDay;
                     monthCalendar_Click(null, args);
 
-                }
+                //}
 
-                catch (Exception)
-                {
-                    MessageBox.Show("Пересечение событий", "Невозможно добавить событие", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
-                }
+                //catch (Exception)
+                //{
+                //    MessageBox.Show("Пересечение событий", "Невозможно добавить событие", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                //}
             }
         }
 
@@ -142,10 +170,14 @@ namespace XORGanizer
                         ? "Средняя"
                         : (selectedDayEvent.Value.Importance == EventImportance.Low ? "Низкая" : "Высокая");
 
+                 
+                    string completeness = selectedDayEvent.Value.Сompleteness ? "Выполнено" : "Не выполнено";
+
                     item = new ListViewItem(selectedDayEvent.Value.Description);
                     item.SubItems.Add(importance);
                     item.SubItems.Add(selectedDayEvent.Value.Starting.ToShortTimeString());
                     item.SubItems.Add(selectedDayEvent.Value.Ending.ToShortTimeString());
+                    item.SubItems.Add(completeness);
                     eventsListView.Items.Add(item);
                 }
             }
@@ -170,10 +202,23 @@ namespace XORGanizer
                     WR.Write(evnt.Value.Starting.Ticks + "|");
                     WR.Write(evnt.Value.Ending.Ticks + "|");
 
+                    if (evnt.Value.Сompleteness == true)
+                    {
+                        WR.Write(1+"|");
+                    }
+                    else
+                    {
+                        WR.Write(0 + "|");
+                    }
+
+            //        WR.Write(evnt.Value.Сompleteness + "|");
+
                     WR.WriteLine();
                 }
             }
 
+           
+            
             WR.Close();
             FS.Close();
         }
@@ -186,17 +231,32 @@ namespace XORGanizer
                 ? EventImportance.Middle
                 : selectedItem.SubItems[1].Text == "Низкая" ? EventImportance.Low : EventImportance.High;
 
+            //string comp = selectedItem.SubItems[4].Text;
+
+            //bool copec = false;
+
+            //if (comp  == "Выполнено")
+            //{
+            //    copec = true;
+            //}
+            //if (comp == "Не выполнено")
+            //{
+            //    copec = false;
+              
+            //}
+            
             DateTime timeOfEditedEvent = monthCalendar.SelectionStart;
             int[] beginningHourMinute =
                 selectedItem.SubItems[2].Text.Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
             int[] endingHourMinute =
                 selectedItem.SubItems[3].Text.Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
 
+            
             Event editedEvent = new Event(timeOfEditedEvent.Year, timeOfEditedEvent.Month, timeOfEditedEvent.Day,
                 beginningHourMinute[0], beginningHourMinute[1], timeOfEditedEvent.Year, timeOfEditedEvent.Month,
-                timeOfEditedEvent.Day, endingHourMinute[0], endingHourMinute[1], importance, description);
+                timeOfEditedEvent.Day, endingHourMinute[0], endingHourMinute[1], importance, description, completeness:true);
 
-            EventConfiguringForm eventConfiguringForm = new EventConfiguringForm();
+            EventConfiguringForm eventConfiguringForm = new EventConfiguringForm(this);
             eventConfiguringForm.EditedEvent = editedEvent;
             eventConfiguringForm.EditingMod = true;
             eventConfiguringForm.ShowDialog();
@@ -255,18 +315,12 @@ namespace XORGanizer
             {
                 FileStream FS = new FileStream(OpenFileDialog.FileName, FileMode.Open, FileAccess.Read, FileShare.None);
                 StreamReader SR = new StreamReader(FS);
-                if ((SR.ReadLine()) != null)
-                {
-                    FS.Close();
-                    SR.Close();
-                    StreamReader reader = new StreamReader(OpenFileDialog.OpenFile());
+                FS.Close();
+                SR.Close();
+                StreamReader reader = new StreamReader(OpenFileDialog.OpenFile());
 
-                    EventsLoadMetod(ref reader);
-                }
-                else
-                {
-                    MessageBox.Show("Пустой файл", "Нежданчик", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                }
+                EventsLoadMetod(ref reader);
+
             }
 
             DateRangeEventArgs args =
@@ -290,7 +344,7 @@ namespace XORGanizer
             while (eventsListView.SelectedItems.Count > 0)
             {
                 int[] deletedEventYearMonthDay = monthCalendar.SelectionStart.ToString().Substring(0, 10).Split('.').OfType<string>().Select(str => int.Parse(str)).ToArray();
-                int[] deletedEventHourMinute = eventsListView.SelectedItems[0].SubItems[2].ToString().Substring(18, 5).Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
+                int[] deletedEventHourMinute = eventsListView.SelectedItems[0].SubItems[2].ToString().Count() == 24 ? eventsListView.SelectedItems[0].SubItems[2].ToString().Substring(18, 5).Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray() : eventsListView.SelectedItems[0].SubItems[2].ToString().Substring(18, 4).Split(':').OfType<string>().Select(str => int.Parse(str)).ToArray();
 
                 DateTime deletedEventDate = new DateTime(deletedEventYearMonthDay[2], deletedEventYearMonthDay[1], deletedEventYearMonthDay[0], deletedEventHourMinute[0], deletedEventHourMinute[1], 0);
 
@@ -332,14 +386,6 @@ namespace XORGanizer
             editEventsMetod();
         }
 
-        private void completeEventButton_Click(object sender, EventArgs e)
-        {
-            foreach (ListViewItem item in eventsListView.Items)
-            {
-                item.BackColor = Color.LightGreen;
-            }
-        }
-
         private void eventsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             ContextMenu listViewContextMenu = new ContextMenu();
@@ -358,7 +404,7 @@ namespace XORGanizer
             удалитьToolStripMenuItem.Enabled = true;
             изменитьToolStripMenuItem.Enabled = true;
             editEventButton.Enabled = true;
-            completeEventButton.Enabled = true;
+            
 
             if (eventsListView.SelectedItems.Count == 0)
             {
@@ -366,7 +412,7 @@ namespace XORGanizer
                 удалитьToolStripMenuItem.Enabled = false;
                 изменитьToolStripMenuItem.Enabled = false;
                 editEventButton.Enabled = false;
-                completeEventButton.Enabled = false;
+            
                 menuItem.Visible = false;
             }
         }
@@ -380,14 +426,16 @@ namespace XORGanizer
         {
             if (e.KeyValue == (char)Keys.Delete)
             {
-                DialogResult userChoice = MessageBox.Show("Вы действительно хотите удалить событие?", "Удаление события",MessageBoxButtons.YesNo,MessageBoxIcon.Question,MessageBoxDefaultButton.Button1);
+                DialogResult userChoice = MessageBox.Show("Вы действительно хотите удалить событие?", "Удаление события", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 
                 if (userChoice == System.Windows.Forms.DialogResult.Yes)
                 {
-                    deteleEventMetod(); 
+                    deteleEventMetod();
                 }
             }
         }
+
+    
 
 
     }
